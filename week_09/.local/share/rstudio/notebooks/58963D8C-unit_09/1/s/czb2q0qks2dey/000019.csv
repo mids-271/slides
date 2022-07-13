@@ -1,0 +1,6 @@
+"0","plot_ts        <- aus_electric %>% autoplot(.vars = Electricity) + "
+"0","  labs(title = 'Raw Series')"
+"0","plot_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff) + "
+"0","  labs(title = 'First Difference') "
+"0","plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff) + "
+"0","  labs(title = 'Difference in Log')"

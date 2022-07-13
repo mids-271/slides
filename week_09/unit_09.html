@@ -238,6 +238,8 @@ ar2_1 &lt;- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %&gt;% as_tsibb
 
 ---
 
+class: center, middle
+
 # AR vs. ARMA Models: Another Example 
 
 
@@ -246,21 +248,23 @@ ar2_1 &lt;- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %&gt;% as_tsibb
 
 ---
 
+class: center, middle
+
 # AR vs. ARMA Models, ACF
 
 
 
 ![](unit_09_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
-
 ---
+
+class: center, middle
 
 # AR vs. ARMA Models: PACF
 
 
 
 ![](unit_09_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
-
 
 ---
 
@@ -331,7 +335,7 @@ class: inverse, center, middle
 ## AIC=-34.34   AICc=-30.73   BIC=-22.7
 ```
 
---- 
+---
 
 # Model Diagnostics 
 
@@ -427,9 +431,10 @@ class: inverse, center, middle
 
 ![](unit_09_files/figure-html/layout arma(1-0-1) plots-1.png)&lt;!-- --&gt;
 
---- 
+---
 
-# Model Performance Evaluation: In-Sample Fit
+# Model Performance Evaluation
+##In-Sample Fit
 
 - Like the `\(MA(5)\)` model, the ini-sample fit from the `\(ARMA(1,1)\)` model looks "reasonable".
 
@@ -445,7 +450,8 @@ class: inverse, center, middle
 
 ---
 
-# Direct Comparison Between MA(5) and ARMA(1,1)
+# Direct Comparison:
+## MA(5) vs ARMA(1,1)
 
 - Using the tools from `fpp3` we can fit several models, and compare their forecasting performance. 
 
@@ -488,7 +494,8 @@ class: inverse, center, middle
 
 ---
 
-# General Steps to Analyze a Time Series Model, Part 1  
+# Steps to Analyze Time Series Model
+## Part 1  
 
 1. Based on interaction of *theory*, *subject knowledge*, and *practice* consider a useful class of models. 
 2. Collect and clean and structure the data. 
@@ -503,7 +510,8 @@ class: inverse, center, middle
 
 ---
 
-# # General Steps to Analyze a Time Series Model, Part 2
+# Steps to Analyze Time Series Model
+## Part 2
 
 5. If the series is not stationary, transform it to a stationary series. 
   - Detrend, remove seasons, or apply a logarithmic or difference transformation
@@ -560,7 +568,7 @@ class: inverse, center, middle
   - Volatility clustering, which occurs in many financial and macroeconomic time series generates *conditional heteroskedasticty*. 
   - Data of this form is better modeled using an *Autoregression Conditional Heteroskedastic* (ARCH) or *Generalized ARCH* (GARCH) model.
   
---- 
+---
 
 # Nonstationary Models, Part 3
 
@@ -586,14 +594,14 @@ class: inverse, center, middle
 
 # Nonstationary Model, Part 4 
 
-What happens if one applies a first-differencing approach to a linear trend with white-noise errors? *They get a `\(MA(1)\)` process! 
+What happens if one applies a first-differencing approach to a linear trend with white-noise errors? *They get a `\(MA(1)\)` process!* 
 
 `$$y_{t} = a + bt + \omega_{t}$$` 
 
 Can be transformed into the following series using first differencing: 
 
 `$$\begin{aligned} 
-\bigdowntriangle y_{t} &amp;= y_{t} - y_{t-1} \\ 
+\bigtriangledown y_{t} &amp;= y_{t} - y_{t-1} \\ 
   &amp;= \left(a + bt + \omega_{t}\right) - \left(a + bt + \omega_{t-1} \right) \\ 
   &amp;= b + \left(\omega_{t} - \omega_{t-1}\right)
 \end{aligned}$$`
@@ -603,13 +611,10 @@ Can be transformed into the following series using first differencing:
 `$$\begin{aligned} 
 y_{t} &amp;= a + bt + \omega_{t} \\ 
 y_{t} - \text{ known trend} &amp;= y_{t} - (a + bt) \\ 
-  &amp;= a + bt + \omega_{t} - (a + bt) \\ 
-  &amp;= \omega_{t}
+  &amp;= a + bt + \omega_{t} - (a + bt) = \mathbf{\omega_{t}}
 \end{aligned}$$`
 
-## In Practice 
-
-- Do not blindly apply first differencing methods, or higher-order differencing methods. 
+- **In Practice:** Do not blindly apply first- or higher-order differencing methods. 
 - Investigate and understand the series so that you can ask **and answer** the question, "What is the meaning of this series, and what is the meaning of this transformed series?" 
 
 ---
@@ -620,18 +625,19 @@ class: inverse, center, middle
 
 ---
 
-# Random Walk Processess: An Introduction 
+# Random Walk: Introduction 
 
-- Random walks are nothing more than `\(AR(1)\)` processes where the `\(AR\)` parameter is exactly `\(1\)`. 
-
+.left-column[
 `$$\begin{aligned} 
 y_{t} &amp;= \phi_{1}y_{t-1} + \epsilon_{t} \\ 
 \epsilon_{t} &amp; \sim WN(0, \sigma^{2})
 \end{aligned}$$`
+]
 
+.right-column[
 ## Random walks are important processes 
+- Random walks are `\(AR(1)\)` processes where the `\(AR\)` parameter is exactly `\(1\)`. 
 - They are the basis of many series in continuous-time finance
-- They are the basis of many series is atmospheric data 
 
 ## Random walks are just that...random! 
 
@@ -639,16 +645,20 @@ y_{t} &amp;= \phi_{1}y_{t-1} + \epsilon_{t} \\
 - These are not *mean-reversion* processes. 
 - Instead, they wander up and down, without a tendency to settle at any particular level. 
 - Although they are ill-behaved (i.e. not covariance stationary), the first difference of a random walk **is** stationary white noise.
+]
 
 ---
 
 # A simulated white noise series 
 
+.left-column[
 `$$\begin{aligned} 
 y_{t} &amp;= \phi_{1}y_{t-1} + \epsilon_{t} \\ 
 \epsilon_{t} &amp; \sim WN(0, \sigma^{2})
 \end{aligned}$$`
+]
 
+.right-column[
 
 ```r
 random_walk &lt;- function(time_periods=100, variance=1){
@@ -657,23 +667,24 @@ random_walk &lt;- function(time_periods=100, variance=1){
   for(i in 2:time_periods) {rw[i] &lt;- rw[i-1] + rnorm(1, 0, variance)}
   return(rw)
 }
-
-ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))
 ```
 
-![](unit_09_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
-
+![](unit_09_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+]
 ---
 
-# Random Walk with Drive Processes 
+# Random Walk with Drift Processes 
 
-- Random walks with drift are essentially models of trend
-- On average, the process grows by the drift in each period. 
-
+.left-column[
 `$$\begin{aligned} 
 y_{t} &amp;= \delta + \phi_{1}y_{t-1} + \epsilon_{t} \\ 
 \epsilon_{t} &amp; \sim WN(0, \sigma^{2})
 \end{aligned}$$`
+]
+
+.right-column[
+- Random walks with drift are essentially models of trend
+- On average, the process grows by the drift in each period. 
 
 
 ```r
@@ -683,17 +694,17 @@ random_walk_with_drift &lt;- function(time_periods=100, drift=0.5, variance=1){
   for(i in 2:time_periods) {rwd[i] &lt;- drift + rwd[i-1] + rnorm(1, 0, variance)}
   return(rwd)
 }
-
-ggplot() + geom_line(aes(x=1:100, y=random_walk_with_drift(100)))
 ```
 
-![](unit_09_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
-
+![](unit_09_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+]
 ---
+
+class: center, middle
 
 # Random Walk With and Without Drift 
 
-![](unit_09_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](unit_09_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -724,8 +735,7 @@ class: inverse, center, middle
 E[y_{t}] &amp;= E\left[y_{0} + \sum_{i=1}^{t} \epsilon_{i}\right] \\ 
   &amp;= E[y_{0}] + E\left[\sum_{i=1}^{t}\epsilon_{i}\right] \\ 
   &amp;= E[y_{0}] + \sum_{i=1}^{t}E[\epsilon_{i}] \\ 
-  &amp;= E[y_{0}] + \sum_{i=1}^{t}0 \\
-  &amp;= E[y_{0}] \\ 
+  &amp;= E[y_{0}] + \sum_{i=1}^{t}0 = \mathbf{E[y_{0}]}
 \end{aligned}$$`
 
 ---
@@ -739,8 +749,520 @@ V[y_{t}] &amp;= V\left[y_{0} + \sum_{i=1}^{t} \epsilon_{i}\right] \\
   &amp;= V\left[\sum_{i=1}^{t}\epsilon_{t} \right] \\ 
   &amp;= \sum_{i=1}^{t} V[\epsilon_{i}] \quad \text{Because 0 covariance} \\
   &amp;= \sum_{i=1}^{t} \sigma^{2} \\
-  &amp; = t\sigma^{2}
+  &amp; = \mathbf{t\sigma^{2}}
 \end{aligned}$$`
+
+## The variance of a random walk series grows without bound through time! 
+---
+
+# Random Walk with Drift
+
+- Similar derivations to those we have just shown (do them on your own!) are available for processes with drift: 
+
+`$$\begin{aligned} 
+y_{t}    &amp;= t\delta + y_{0} + \sum_{i=1}^{t}\epsilon_{i} \\ 
+E[y_{t}] &amp;= y_{0} + t\delta \\ 
+V[y_{t}] &amp;= t\sigma^{2}
+\end{aligned}$$`
+
+## The mean grows by the speed of the drift, and variance grows without bound.
+
+---
+
+# Integrated Processes: An Introduction 
+
+- First differencing can transform non-stationary random walk processes to stationary white noise processes. 
+
+## Simple Transformations 
+
+- Define `\(I(d)\)` to be an **Integrated Process** with order of `\(d\)`. Then, 
+  - White noise is the most simple `\(I(0)\)` process. 
+  - The random walk with the most simple `\(I(1)\)` process. 
+- In practice, `\(I(0)\)` and `\(I(1)\)` cases have *by far* the most applications. 
+  - One reason is that results are hard to understand, and harder to explain, once as series is differenced too many times. 
+  
+---
+
+# Random Walk Process 
+
+A time series, `\(y_{t}\)` follows an `\(ARIMA(p,d,q)\)` process if the `\(d^{th}\)` differences of the `\(y_{t}\)` series is an `\(ARMA(p,q)\)` process. Using the *backshift* operator, these series can be expressed as
+
+`$$\phi_{p}(B)(1-B)^{d}y_{t} = \theta_{q}(B)\omega_{t}$$`
+
+where `\(\phi_{p}\)` and `\(\theta_{q}\)` are polynomials of orders `\(p\)` and `\(q\)` discussed in the previous lecturers. 
+
+---
+
+class: inverse, center, middle 
+
+# ARIMA Model: Simulation 
+
+---
+
+# ARIMA: Algebra Before Simulation, Part 1 
+
+- Following the approach of the last few lectures, in this lecture we will simulate an *ARIMA* model and examine the patterns it exhibits is a time series plot, an `\(ACF\)` plot, and a `\(PACF\)` plot. 
+- When we specify the model, we are specifying the "true" (i.e. population) model. So, we can evaluate, given a particular sample, how close the estimates are to the "true" value. 
+- Consider the following model: 
+
+`$$\begin{aligned} 
+y_{t} &amp;= 0.5y_{t-1} + y_{t-1} + 0.5 y_{t-2} + \omega_{t} + 0.3 \omega_{t-1} \\ 
+\bigtriangledown y_{t} = (y_{t} - y_{t-1}) &amp;= 0.5 (y_{t-1} - y_{t-2}) + \omega_{t} + 0.3 \omega_{t-1} \\ 
+\bigtriangledown y_{t} - 0.5(y_{t-1} - y_{t-2}) &amp;= \omega_{t} + 0.3 \omega_{t-1} \\ 
+\bigtriangledown y_{t} - 0.5 \bigtriangledown y_{t-1} &amp;= \omega_{t} + 0.3 \omega_{t-1}
+\end{aligned}$$`
+
+---
+
+# ARIMA: Algebra Before Simulation, Part 2
+
+Using the backshift operator, this equation can be rearranged and expressed as an `\(ARIMA(1,1,1)\)` model. 
+
+`$$\begin{aligned}
+\bigtriangledown y_{t} - 0.5 \bigtriangledown y_{t-1} &amp;= \omega_{t} + 0.3 \omega_{t-1} \\ 
+(1 - 0.5 B) \bigtriangledown y_{t} &amp;= (1 + 0.3B) \omega_{t} \\ 
+\bigtriangledown y_{t} &amp;= 0.5 \bigtriangledown y_{t-1} + \omega_{t} + 0.3 \omega_{t-1}
+\end{aligned}$$`
+
+- After the first difference, the model becomes a stationary, `\(ARMA(1,1)\)` model.
+
+---
+
+# Simulate the Data! 
+
+
+```r
+set.seed(898)
+y     &lt;- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise 
+omega &lt;- c(rnorm(3), rep(NA, 97)) # start with three shocks 
+
+for(t in 3:100) { 
+  omega[t+1] &lt;- rnorm(1) # make a shock for the next time period 
+  y[t] &lt;- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+}
+```
+
+
+```
+## Rows: 100
+## Columns: 2
+## $ time  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1…
+## $ value &lt;dbl&gt; -0.57897, -0.08234, 0.69193, 2.19286, 4.73721, 6.37439, 5.79779,…
+```
+
+---
+
+class: center, middle
+
+# Data Visualization, Part 1 
+
+
+
+![](unit_09_files/figure-html/layout arima plots 1-1.png)&lt;!-- --&gt;
+
+---
+
+# Data Visualization, Part 2
+
+![](unit_09_files/figure-html/layout arima plot 2-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Data Visualization, Part 3
+
+![](unit_09_files/figure-html/layout arima plot 3-1.png)&lt;!-- --&gt;
+
+---
+
+# ARIMA Models: Modeling with Simulated Data 
+
+
+```r
+fit_model &lt;- series %&gt;% 
+  model(
+    arima_model = ARIMA(value ~ 1 + pdq(1,1,1) + PDQ(0,0,0))
+  )
+
+fit_model %&gt;% report()
+```
+
+```
+## Series: value 
+## Model: ARIMA(1,1,1) w/ drift 
+## 
+## Coefficients:
+##          ar1     ma1  constant
+##       0.4175  0.2873    0.0560
+## s.e.  0.1668  0.1893    0.1182
+## 
+## sigma^2 estimated as 0.8767:  log likelihood=-132.7
+## AIC=273.4   AICc=273.8   BIC=283.8
+```
+
+---
+
+# Model Diagnostics Using Residuals 
+
+Both the graphical and Ljung-Box tests do not reject the residual series as a realization of a white noise process. 
+
+![](unit_09_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+---
+
+class: center, middle
+
+# Model Performance Evaluation 
+
+![](unit_09_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+
+---
+
+# Forecasting 
+
+Although the model fit it good, the model produces forecasts that are a "flat line" 
+
+![](unit_09_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+
+---
+
+# Back-Testing / Out-of-sample Forecasting 
+
+- Here we are doing two modeling steps at once: 
+  1. We are choosing to back-test; and, 
+  2. We are changing the model. 
+- In general, your process should move only one modeling choice at a time, so that you can observe the effects of each modeling choice, *in isolation*. 
+  - Estimate an `\(ARIMA(1,1,0)\)` model. 
+  - Back-test against the last `\(10\)` datapoints. 
+
+---
+
+# Back-Testing / Out-of-sample Forecasting
+
+![](unit_09_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+
+---
+
+# Back-Testing / Out-of-Sample Forecasting 
+
+- Although the fit is good, only the 1-step ahead forecast is close
+
+![](unit_09_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle 
+
+# Seasonal ARIMA: Introduction and Mathematical Formulation 
+
+---
+
+# Seasonal ARIMA: Introduction 
+
+- To this point, we have avoided the issues of seasonal effects. 
+- The dependence on the past sometimes occurs more strongly at multiples of some underlying seasonal lag, which we will denote `\(s\)`
+- ARIMA models can be extended to address these seasonal effects. 
+- A seasonal ARIMA (SARIMA) model uses differencing at a lag equal to the number of season(s) to remove additive seasonal effects. 
+- A seasonal ARIMA model is formed by including additional seasonal terms in the model, as written below. 
+
+`$$ARIMA \underbrace{(p,d,q)}_\text{non-seasonal} \overbrace{(P,D,Q)_{s}}^\text{seasonal}$$`
+
+where `\(s\)` is the number of periods per season. 
+
+---
+
+# Seasonal ARIMA: Mathematical Formulation 
+
+## Notation and Convention
+- Uppercase notation denotes **seasonal parts** of the model. 
+- Lowercase notation denotes **non-seasonal parts** of the model 
+- The seasonal part of the model consists of terms that are very similar to the nonseasonal components of the model, but they involve backshifts of the seasonal period. 
+
+## Writing the Seasonal ARIMA Model 
+
+The seasonal `\(ARIMA(p,d,q)(P,D,Q)_{s}\)` can be expressed using the backshift operator: 
+
+`$$\Theta_{P}(B^{s})\theta_{p}(B)(1-B^{s})^{D}(1-B)^{d}x_{t} = \Phi_{Q}(B^{s})\phi_{q}(B)\omega_{t}$$`
+
+where `\(\Theta_{P}, \theta{p}, \Phi_{Q}, \phi_{q}\)` are polynomials of orders of `\(P, p, Q,\)` and `\(q\)`. 
+
+---
+
+# Seasonal ARIMA: Explaination of the Formula 
+
+An `\(ARIMA(1,1,1)(1,1,1)_{4}\)` model, without a constant, for quarterly data (i.e. `\(s = 4)\)` can be written as: 
+
+`$$\underbrace{(1 - \phi_{1}B)}_\text{Non-seasonal AR(1)}\overbrace{(1 - \Phi_{1}B^{4})}^\text{Seasonal AR(1)}\underbrace{(1-B)}_\text{Non-seasonal diff}\overbrace{(1-B^{4})}^\text{Seasonal diff}y_{t} = \underbrace{(1 + \theta_{1}B)}_\text{Non-seasonal MA(1)}\overbrace{(1+\Theta_{1}B^{4})e_{t}}^\text{Seasonal MA(1)}$$`
+
+---
+
+# Seasonal ARIMA: Examples, Part 1 
+
+1. A simple `\(AR\)` model with a seasonal period of `\(12\)` units, denoted as `\(ARIMA(0,0,0)(1,0,0)_{12}\)` is `\(x_{t} = \alpha x_{t-12} + \omega_{t}\)`. 
+  - Such a model would be appropriate for montly data when only the value in the month of the previous year influences the current monthly value. 
+  - This model is stationary when `\(|\alpha^{-1/12}| &gt; 1\)`. 
+2. It is common to find series with stochastic trends that nevertheless have seasonal influences. The model in (1) above could be extended to `\(x_{t} = x_{t-1} + \alpha t_{t-12} - \alpha x_{t-13} + \omega_{t}\)`. 
+  - Rearranging and factoring gives (1 - \alpha B^{12})(1-B)x_{t} = \omega_{t}$. 
+  - This can be re-written as `\(\Theta_{1}(B^{12})(1-B)x_{t} = \omega_{t}\)`.
+  - If we compare this to the equation from the last slide, is `\(ARIMA(0,1,0)(1,0,0)_{12}\)`. 
+  - This could be written as `\(\bigtriangledown x_{t} = \alpha \bigtriangledown x_{t-12}+\omega_{t}\)`. This last form emphasises that the *change* at time `\(t\)` depends on the change at the same time (i.e. month in this case) of the previous year. 
+  - The model is non-stationary, since the polynomial on the left-hand side contains the term `\((1-B)\)`, which implies that there is a unit root `\(B=1\)`, which is on the unit circle. 
+  
+---
+
+# Seasonal ARIMA: Examples, Part 2
+
+3. A simple quarterly seasonal moving average model is `\(x_{t} = (1 - \beta B^{4})\omega_{t} = \omega_{t} - \beta\omega_{t-4}\)`. 
+  - This model is stationary, and only suitable for data without a trend. 
+  - If the data also contains a stochastic trend, the model could be extended to include first order differences, `\(x_{t} = x_{t-1} + \omega_{t} - \beta\omega_{t-4}\)`, which is an `\(ARIMA(0,1,0)(0,0,1)_{4}\)` process. 
+  - Alternatively, if the seasonal terms contain a stochastic trend, differencing can be applied at the seasonal period to give `\(x_{t} = x_{t-4} + \omega_{t} - \beta\omega_{t-4}\)`, which is an `\(ARIMA(0,0,0)(0,1,1)_{4}\)` process. 
+  
+---
+
+class: inverse, center, middle
+
+# Seasonal ARIMA 
+## An Example: European Quarterly Retail Trade
+
+---
+
+# European Retil Trade: 1996 - 2011
+
+- This example is from *FPP2*, and uses the `fpp` package for data
+- This data is clearley nonstationary and appears to have some seasonality
+
+
+```r
+d &lt;- fpp::euretail %&gt;% 
+  as_tsibble()
+```
+
+![](unit_09_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+
+---
+
+# European Retail Trade: 1996-2011
+
+
+```r
+d &lt;- d %&gt;% mutate(diff_value = difference(value, lag = 4))
+```
+
+![](unit_09_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+
+---
+
+# Additional Differences
+
+If we take an additional difference, then this process converts to stationary, i.e. looks like a white noise series. 
+
+
+```r
+d &lt;- d %&gt;% 
+  mutate(double_diff_value = difference(diff_value, lag = 1))
+```
+
+.left-column[
+- The spike at lag 1 suggests a `\(MA(1)\)` component. 
+- The spike at lag 4 suggests a seasonal `\(MA(1)\)` component. 
+]
+
+.right-column[
+![](unit_09_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+]
+
+
+
+---
+
+# European Retail Trade
+
+- We will start wtih a model of the form `\(ARIMA(0,1,1)(0,1,1)_{4}\)`. 
+- The residuals of this model are below. 
+
+.left-column[
+- Both `\(ACF\)` and `\(PACF\)` show spikes at lag `\(2\)`. 
+- Suggests the need for additional nonseasonal terms.
+]
+
+.right-column[
+![](unit_09_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Consider Alternative Models 
+
+- Fit additional models, including `\(ARIMA(0,1,2)(0,1,1)_{4}, ARIMA(0,1,3)(0,1,1)_{4}\)`. 
+- Select based on `\(AIC_{c}\)` in this case, but remember that this is just one model fit measure, and in some cases we might prefer out-of-sample fit measures instead. 
+
+
+```r
+fit_models &lt;- d %&gt;% 
+  model(
+    model_011 = ARIMA(value ~ 1 + pdq(0,1,1) + PDQ(0,1,1)), 
+    model_012 = ARIMA(value ~ 1 + pdq(0,1,2) + PDQ(0,1,1)), 
+    model_013 = ARIMA(value ~ 1 + pdq(0,1,3) + PDQ(0,1,3))
+  )
+```
+
+
+```
+## # A tibble: 3 × 5
+##   .model    log_lik   AIC  AICc   BIC
+##   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 model_013   -26.4  68.9  71.8  85.5
+## 2 model_012   -30.9  71.8  73.0  82.2
+## 3 model_011   -32.2  72.4  73.1  80.7
+```
+
+---
+
+# Time Series Plot of Selected Model 
+
+class: center, middle
+
+![](unit_09_files/figure-html/unnamed-chunk-42-1.png)&lt;!-- --&gt;
+
+---
+
+# Forecasting 
+
+- With a candidate model that appears to satisfy the statistical assumptions of the model, proceed to forecasting. 
+- Below is a 12-step (i.e. 12 quarters, or three years) ahead forecst.
+
+.left-column[
+## Notice
+- Forecast follows most recent trend due to double differencing
+- Large (and increasing) prediction interval
+]
+
+.right-column[
+![](unit_09_files/figure-html/unnamed-chunk-43-1.png)&lt;!-- --&gt;
+]
+
+---
+
+class: inverse, center, middle
+# Putting Everything Together 
+## Part 1: The Data
+
+---
+
+# The Data
+## Australian Electrity Production Series 
+
+This example uses the *Australian Electricity Production* series that is provided in `fpp3`. While there are several series provided, we'll use only electricity. 
+
+
+```r
+aus_production %&gt;% 
+  glimpse()
+```
+
+```
+## Rows: 218
+## Columns: 7
+## $ Quarter     &lt;qtr&gt; 1956 Q1, 1956 Q2, 1956 Q3, 1956 Q4, 1957 Q1, 1957 Q2, 1957…
+## $ Beer        &lt;dbl&gt; 284, 213, 227, 308, 262, 228, 236, 320, 272, 233, 237, 313…
+## $ Tobacco     &lt;dbl&gt; 5225, 5178, 5297, 5681, 5577, 5651, 5317, 6152, 5758, 5641…
+## $ Bricks      &lt;dbl&gt; 189, 204, 208, 197, 187, 214, 227, 222, 199, 229, 249, 234…
+## $ Cement      &lt;dbl&gt; 465, 532, 561, 570, 529, 604, 603, 582, 554, 620, 646, 637…
+## $ Electricity &lt;dbl&gt; 3923, 4436, 4806, 4418, 4339, 4811, 5259, 4735, 4608, 5196…
+## $ Gas         &lt;dbl&gt; 5, 6, 7, 6, 5, 7, 7, 6, 5, 7, 8, 6, 5, 7, 8, 6, 6, 8, 8, 7…
+```
+
+---
+
+# EDA: The Raw Series 
+
+class: center, middle
+![](unit_09_files/figure-html/unnamed-chunk-45-1.png)&lt;!-- --&gt;
+
+---
+
+# Transforming the Series 
+## Should we first-difference or first-difference the log? 
+
+
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-48-1.png)&lt;!-- --&gt;
+
+---
+
+# The Transformed Series 
+
+- The `\(ACF\)` and the `\(PACF\)` plots of the transformed series show seasonal effects 
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-50-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle 
+
+# Putting Everything Together 
+## Part 2: The Modeling
+
+---
+
+# Estimation 
+
+- We will model on the first differenced series, using: 
+  - A seasonal difference with a `\(MA(1)\)` component; and, 
+  - A first differenced `\(AR(1)\)` and `\(MA(2)\)` components. 
+- Notice that all components are highly significant
+  
+
+```
+## Series: Electricity 
+## Model: ARIMA(1,1,2)(0,1,1)[4] w/ poly 
+## 
+## Coefficients:
+##          ar1      ma1     ma2     sma1  constant
+##       0.6271  -1.1394  0.2183  -0.6938    0.6873
+## s.e.  0.1689   0.1821  0.1368   0.0480    1.3029
+## 
+## sigma^2 estimated as 531593:  log likelihood=-1706
+## AIC=3424   AICc=3424   BIC=3444
+```
+
+---
+
+# Model Diagnostics Using Residudals 
+
+- The residuals clearly increase in volatility over time. 
+- The distribution is skewed. 
+- However, the ACF shows no significant correlation, and the Ljung-Box test does not reject.  
+
+![](unit_09_files/figure-html/unnamed-chunk-52-1.png)&lt;!-- --&gt;
+
+```
+##   lb_stat lb_pvalue 
+##   0.04377   0.83428
+```
+
+---
+
+# Model Performance Evaluation: In-Sample Fit 
+
+- Regardless, we proceed to examine the in-sample fit and forecast using this model, and we'll try a series of variants. 
+- The graph shows an excelled in-sample fit produced by the model. 
+
+![](unit_09_files/figure-html/unnamed-chunk-53-1.png)&lt;!-- --&gt;
+
+---
+
+# Forecasting 
+
+- The three year-ahead forecast continues the upward trend and reproduces the seasonal effect embedded in the original series. 
+
+![](unit_09_files/figure-html/unnamed-chunk-54-1.png)&lt;!-- --&gt;
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

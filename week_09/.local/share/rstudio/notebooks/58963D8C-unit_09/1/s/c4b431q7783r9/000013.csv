@@ -1,2 +1,0 @@
-"0","forecast(fit_model, h=12) %>% "
-"0","  autoplot(series)"

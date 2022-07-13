@@ -1,0 +1,8 @@
+"0","plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')"
+"0","plot_acf_diff  <- d %>% ACF(y=diff_value) %>% "
+"0","  autoplot() + labs(title = 'ACF of Differenced Values')"
+"0","plot_pacf_diff <- d %>% PACF(y=diff_value) %>% "
+"0","  autoplot() + labs(title = 'PACF of Differenced Values')"
+"0",""
+"0","plot_ts_diff / "
+"0","  (plot_acf_diff | plot_pacf_diff)"

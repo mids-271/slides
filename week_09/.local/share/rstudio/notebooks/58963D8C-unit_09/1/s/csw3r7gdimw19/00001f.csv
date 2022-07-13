@@ -1,0 +1,4 @@
+"0","fit_models %>% "
+"0","  select(model_013) %>% "
+"0","  augment() %>% "
+"0","  gg_tsdisplay(y = .resid, plot_type = 'partial')"

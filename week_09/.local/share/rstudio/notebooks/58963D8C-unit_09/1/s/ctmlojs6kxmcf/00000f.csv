@@ -1,0 +1,4 @@
+"0","plot_ts_06n5_05   <- arma_data_06n5_05   %>% autoplot(.vars=value)"
+"0","plot_ts_n6n5_05n2 <- arma_data_n6n5_05n2 %>% autoplot(.vars=value)"
+"0","plot_ts_0603_05n2 <- arma_data_0603_05n2 %>% autoplot(.vars=value)"
+"0","plot_ts_0801_05n2 <- arma_data_0801_05n2 %>% autoplot(.vars=value)"

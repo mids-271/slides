@@ -1,0 +1,5 @@
+"0","plot_ar1_1 <- arima.sim(n=100, model=list(ar=0.4)) %>% as_tsibble() %>% autoplot(.vars=value)"
+"0","plot_ar1_2 <- arima.sim(n=100, model=list(ar=0.8)) %>% as_tsibble() %>% autoplot(.vars=value)"
+"0","plot_ar1_3 <- arima.sim(n=100, model=list(ar=0.9)) %>% as_tsibble() %>% autoplot(.vars=value)"
+"0","plot_ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %>% "
+"0","  as_tsibble() %>% autoplot(.vars=value)"

@@ -1,0 +1,6 @@
+"0","set.seed(898)"
+"0",""
+"0","ar1_1 <- arima.sim(n=100, model=list(ar=0.4))                 %>% as_tsibble()"
+"0","ar1_2 <- arima.sim(n=100, model=list(ar=0.8))                 %>% as_tsibble() "
+"0","ar1_3 <- arima.sim(n=100, model=list(ar=0.9))                 %>% as_tsibble() "
+"0","ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %>% as_tsibble()"

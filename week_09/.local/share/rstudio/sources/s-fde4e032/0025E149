@@ -1,0 +1,27 @@
+{
+    "id": "0025E149",
+    "path": "~/unit_09.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1657661725299.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "1529,0",
+        "scrollLine": "1525",
+        "last_setup_crc32": "fde4e032ad8b0e55"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1657752268,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1657752268847,
+    "read_only": false,
+    "read_only_alternatives": []
+}

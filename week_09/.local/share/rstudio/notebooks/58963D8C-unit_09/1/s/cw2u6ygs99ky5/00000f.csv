@@ -1,0 +1,4 @@
+"0","plot_pacf_06n5_05   <- arma_data_06n5_05   %>% PACF(y=value) %>% autoplot() "
+"0","plot_pacf_n6n5_05n2 <- arma_data_n6n5_05n2 %>% PACF(y=value) %>% autoplot() "
+"0","plot_pacf_0603_05n2 <- arma_data_0603_05n2 %>% PACF(y=value) %>% autoplot() "
+"0","plot_pacf_0801_05n2 <- arma_data_0801_05n2 %>% PACF(y=value) %>% autoplot() "

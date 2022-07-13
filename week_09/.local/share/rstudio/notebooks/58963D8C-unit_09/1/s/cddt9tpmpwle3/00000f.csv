@@ -1,0 +1,4 @@
+"0","arma_data_06n5_05   <- arima.sim(n=100, model=list(ar=c(0.6, -0.5),  ma=0.5))          %>% as_tsibble() "
+"0","arma_data_n6n5_05n2 <- arima.sim(n=100, model=list(ar=c(-0.5, -0.5), ma=c(0.5, -0.2))) %>% as_tsibble() "
+"0","arma_data_0603_05n2 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3),   ma=c(0.5, -0.2))) %>% as_tsibble() "
+"0","arma_data_0801_05n2 <- arima.sim(n=100, model=list(ar=c(0.8, 0.1),   ma=c(0.5, -0.2))) %>% as_tsibble() "

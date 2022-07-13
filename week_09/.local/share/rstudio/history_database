@@ -1873,3 +1873,664 @@
 1657679824971:autoplot(filtered_series)
 1657679841923:forecast(backtest_model_fit, h=10) %>%
 1657679841933:autoplot(series)
+1657736334372:library(latex2exp)
+1657736334411:library(tidyverse)
+1657736335103:library(ggplot2)
+1657736335112:library(patchwork)
+1657736335159:library(data.table)
+1657736335255:library(magrittr)
+1657736335281:library(patchwork)
+1657736335294:library(tsibble)
+1657736335321:library(fpp3)
+1657736335864:library(feasts)
+1657736335872:library(fable)
+1657736335880:library(astsa)
+1657736335906:library(lubridate)
+1657736335914:library(lmtest)
+1657736335985:berkeley_blue   <- '#003262'
+1657736335993:california_gold <- '#FDB515'
+1657736336010:options(htmltools.dir.version = FALSE)
+1657736336018:options(digits = 4)
+1657736336026:knitr::opts_chunk$set(echo = FALSE, dpi = 300, fig.height = 3)
+1657736336043:theme_set(theme_minimal())
+1657736336217:plot_ts_resid <- model_arma_11 %>%
+1657736336227:augment() %>%
+1657736336235:autoplot(.vars=.resid)
+1657736347715:model_arma_11 <- data_gbp_nzd %>%
+1657736347724:model(ARIMA(xrate ~ 1 + pdq(1, 0, 1) + PDQ(0, 0, 0)))
+1657736351035:library(latex2exp)
+1657736351044:library(tidyverse)
+1657736351052:library(ggplot2)
+1657736351061:library(patchwork)
+1657736351071:library(data.table)
+1657736351103:library(magrittr)
+1657736351745:library(patchwork)
+1657736351761:library(tsibble)
+1657736351768:library(fpp3)
+1657736351776:library(feasts)
+1657736351783:library(fable)
+1657736351791:library(astsa)
+1657736351802:library(lubridate)
+1657736351810:library(lmtest)
+1657736351822:berkeley_blue   <- '#003262'
+1657736351830:california_gold <- '#FDB515'
+1657736351843:options(htmltools.dir.version = FALSE)
+1657736351851:options(digits = 4)
+1657736351858:knitr::opts_chunk$set(echo = FALSE, dpi = 300, fig.height = 3)
+1657736351878:theme_set(theme_minimal())
+1657736351927:## make ar data
+1657736351936:ar_data_06 <- arima.sim(n=100, model=list(ar=0.6))  %>% as_tsibble()
+1657736351962:ar_data_n6 <- arima.sim(n=100,model=list(ar=-0.6))  %>% as_tsibble()
+1657736351978:ar_data_08 <- arima.sim(n=100, model=list(ar=0.8))  %>% as_tsibble()
+1657736351995:ar_data_n8 <- arima.sim(n=100, model=list(ar=-0.8)) %>% as_tsibble()
+1657736352019:## make arma data
+1657736352029:arma_data_0605 <- arima.sim(n=100, model=list(ar=0.6, ma=0.5))  %>% as_tsibble()
+1657736352067:arma_data_06n5 <- arima.sim(n=100, model=list(ar=0.6, ma=-0.5)) %>% as_tsibble()
+1657736352083:arma_data_0805 <- arima.sim(n=100, model=list(ar=0.8, ma=05))   %>% as_tsibble()
+1657736352097:arma_data_08n5 <- arima.sim(n=100, model=list(ar=0.8, ma=-0.5)) %>% as_tsibble()
+1657736352138:plot_ts_ar06 <- ar_data_06 %>% autoplot(.vars=value)
+1657736352160:plot_ts_arn6 <- ar_data_n6 %>% autoplot(.vars=value)
+1657736352171:plot_ts_ar08 <- ar_data_08 %>% autoplot(.vars=value)
+1657736352182:plot_ts_arn8 <- ar_data_n8 %>% autoplot(.vars=value)
+1657736352199:plot_ts_arma_0605 <- arma_data_0605 %>% autoplot(.vars=value)
+1657736352209:plot_ts_arma_06n5 <- arma_data_06n5 %>% autoplot(.vars=value)
+1657736352220:plot_ts_arma_0805 <- arma_data_0805 %>% autoplot(.vars=value)
+1657736352230:plot_ts_arma_08n5 <- arma_data_08n5 %>% autoplot(.vars=value)
+1657736352276:(plot_ts_ar06 | plot_ts_arn6 | plot_ts_arma_0605 | plot_ts_arma_06n5) /
+1657736352283:(plot_ts_ar08 | plot_ts_arn8 | plot_ts_arma_0805 | plot_ts_arma_08n5)
+1657736353016:arma_data_06n5_05   <- arima.sim(n=100, model=list(ar=c(0.6, -0.5),  ma=0.5))          %>% as_tsibble()
+1657736353030:arma_data_n6n5_05n2 <- arima.sim(n=100, model=list(ar=c(-0.5, -0.5), ma=c(0.5, -0.2))) %>% as_tsibble()
+1657736353042:arma_data_0603_05n2 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3),   ma=c(0.5, -0.2))) %>% as_tsibble()
+1657736353054:arma_data_0801_05n2 <- arima.sim(n=100, model=list(ar=c(0.8, 0.1),   ma=c(0.5, -0.2))) %>% as_tsibble()
+1657736353088:plot_ts_06n5_05   <- arma_data_06n5_05   %>% autoplot(.vars=value)
+1657736353109:plot_ts_n6n5_05n2 <- arma_data_n6n5_05n2 %>% autoplot(.vars=value)
+1657736353121:plot_ts_0603_05n2 <- arma_data_0603_05n2 %>% autoplot(.vars=value)
+1657736353133:plot_ts_0801_05n2 <- arma_data_0801_05n2 %>% autoplot(.vars=value)
+1657736353171:(plot_ts_ar06 | plot_ts_arn6 | plot_ts_06n5_05 | plot_ts_n6n5_05n2) /
+1657736353179:(plot_ts_ar08 | plot_ts_arn8 | plot_ts_0603_05n2 | plot_ts_0801_05n2)
+1657736353906:plot_acf_06 <- ar_data_06 %>% ACF(y=value) %>% autoplot()
+1657736354023:plot_acf_n6 <- ar_data_n6 %>% ACF(y=value) %>% autoplot()
+1657736354100:plot_acf_08 <- ar_data_08 %>% ACF(y=value) %>% autoplot()
+1657736354188:plot_acf_n8 <- ar_data_n8 %>% ACF(y=value) %>% autoplot()
+1657736354265:plot_acf_0605 <- arma_data_0605 %>% ACF(y=value) %>% autoplot()
+1657736354349:plot_acf_06n5 <- arma_data_06n5 %>% ACF(y=value) %>% autoplot()
+1657736354421:plot_acf_0805 <- arma_data_0805 %>%ACF(y=value) %>% autoplot()
+1657736354508:plot_acf_08n5 <- arma_data_08n5 %>% ACF(y=value) %>% autoplot()
+1657736354595:plot_acf_06n5_05   <- arma_data_06n5_05   %>% ACF(y=value) %>% autoplot()
+1657736354681:plot_acf_n6n5_05n2 <- arma_data_n6n5_05n2 %>% ACF(y=value) %>% autoplot()
+1657736354755:plot_acf_0603_05n2 <- arma_data_0603_05n2 %>% ACF(y=value) %>% autoplot()
+1657736354840:plot_acf_0801_05n2 <- arma_data_0801_05n2 %>% ACF(y=value) %>% autoplot()
+1657736354938:(plot_acf_06 | plot_acf_n6 | plot_acf_0605 | plot_acf_06n5) /
+1657736354946:(plot_acf_08 | plot_acf_n8 | plot_acf_0805 | plot_acf_08n5)
+1657736356233:plot_pacf_06 <- ar_data_06 %>% PACF(y=value) %>% autoplot()
+1657736356307:plot_pacf_n6 <- ar_data_n6 %>% PACF(y=value) %>% autoplot()
+1657736356395:plot_pacf_08 <- ar_data_08 %>% PACF(y=value) %>% autoplot()
+1657736356478:plot_pacf_n8 <- ar_data_n8 %>% PACF(y=value) %>% autoplot()
+1657736356551:plot_pacf_0605 <- arma_data_0605 %>% PACF(y=value) %>% autoplot()
+1657736356651:plot_pacf_06n5 <- arma_data_06n5 %>% PACF(y=value) %>% autoplot()
+1657736356734:plot_pacf_0805 <- arma_data_0805 %>% PACF(y=value) %>% autoplot()
+1657736356822:plot_pacf_08n5 <- arma_data_08n5 %>% PACF(y=value) %>% autoplot()
+1657736356916:(plot_pacf_06 | plot_pacf_n6 | plot_pacf_0605 | plot_pacf_06n5) /
+1657736356924:(plot_pacf_08 | plot_pacf_n8 | plot_pacf_0805 | plot_pacf_08n5)
+1657736358059:plot_pacf_06n5_05   <- arma_data_06n5_05   %>% PACF(y=value) %>% autoplot()
+1657736358128:plot_pacf_n6n5_05n2 <- arma_data_n6n5_05n2 %>% PACF(y=value) %>% autoplot()
+1657736358226:plot_pacf_0603_05n2 <- arma_data_0603_05n2 %>% PACF(y=value) %>% autoplot()
+1657736358299:plot_pacf_0801_05n2 <- arma_data_0801_05n2 %>% PACF(y=value) %>% autoplot()
+1657736358408:(plot_pacf_06n5_05 | plot_pacf_n6n5_05n2) /
+1657736358416:(plot_pacf_0603_05n2 | plot_pacf_0801_05n2)
+1657736359005:set.seed(898)
+1657736359018:ar1_1 <- arima.sim(n=100, model=list(ar=0.4))                 %>% as_tsibble()
+1657736359031:ar1_2 <- arima.sim(n=100, model=list(ar=0.8))                 %>% as_tsibble()
+1657736359045:ar1_3 <- arima.sim(n=100, model=list(ar=0.9))                 %>% as_tsibble()
+1657736359078:ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %>% as_tsibble()
+1657736359129:plot_ar1_1 <- arima.sim(n=100, model=list(ar=0.4)) %>% as_tsibble() %>% autoplot(.vars=value)
+1657736359149:plot_ar1_2 <- arima.sim(n=100, model=list(ar=0.8)) %>% as_tsibble() %>% autoplot(.vars=value)
+1657736359173:plot_ar1_3 <- arima.sim(n=100, model=list(ar=0.9)) %>% as_tsibble() %>% autoplot(.vars=value)
+1657736359192:plot_ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %>%
+1657736359202:as_tsibble() %>% autoplot(.vars=value)
+1657736359249:(plot_ar1_1 | plot_ar1_2) /
+1657736359257:(plot_ar1_3 | plot_ar2_1) +
+1657736359265:plot_annotation(
+1657736359273:title = 'Time Series Plots of AR Processes'
+1657736359281:)
+1657736359689:plot_acf_ar1_1 <- arima.sim(n=100, model=list(ar=0.4)) %>% as_tsibble() %>% ACF(y=value) %>% autoplot()
+1657736359787:plot_acf_ar1_2 <- arima.sim(n=100, model=list(ar=0.8)) %>% as_tsibble() %>% ACF(y=value) %>% autoplot()
+1657736359873:plot_acf_ar1_3 <- arima.sim(n=100, model=list(ar=0.9)) %>% as_tsibble() %>% ACF(y=value) %>% autoplot()
+1657736359965:plot_acf_ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %>%
+1657736359975:as_tsibble() %>% ACF(y=value) %>% autoplot()
+1657736360084:(plot_acf_ar1_1 | plot_acf_ar1_2) /
+1657736360093:(plot_acf_ar1_3 | plot_acf_ar2_1) +
+1657736360101:plot_annotation(
+1657736360110:title = 'ACF Plots of AR Processes'
+1657736360118:)
+1657736360747:plot_pacf_ar1_1 <- arima.sim(n=100, model=list(ar=0.4)) %>% as_tsibble() %>% PACF(y=value) %>% autoplot()
+1657736360864:plot_pacf_ar1_2 <- arima.sim(n=100, model=list(ar=0.8)) %>% as_tsibble() %>% PACF(y=value) %>% autoplot()
+1657736360950:plot_pacf_ar1_3 <- arima.sim(n=100, model=list(ar=0.9)) %>% as_tsibble() %>% PACF(y=value) %>% autoplot()
+1657736361052:plot_pacf_ar2_1 <- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5))  %>%
+1657736361060:as_tsibble() %>% PACF(y=value) %>% autoplot()
+1657736361181:(plot_pacf_ar1_1 | plot_pacf_ar1_2) /
+1657736361190:(plot_pacf_ar1_3 | plot_pacf_ar2_1) +
+1657736361199:plot_annotation(
+1657736361206:title = 'PACF of AR Processes'
+1657736361213:)
+1657736361837:data_gbp_nzd <- read.csv(file = './data/xrate.txt') %>%
+1657736361845:mutate(index = 1:39) %>%
+1657736361852:as_tsibble(index=index)
+1657736361878:glimpse(data_gbp_nzd)
+1657736361962:plot_ts   <- data_gbp_nzd %>% autoplot(xrate)
+1657736361996:plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram(bins=10)
+1657736362035:plot_acf  <- data_gbp_nzd %>% ACF(y=xrate) %>% autoplot()
+1657736362112:plot_pacf <- data_gbp_nzd %>% PACF(y=xrate) %>% autoplot()
+1657736362395:(plot_ts | plot_hist) /
+1657736362404:(plot_acf | plot_pacf)
+1657736362858:model_ma_5 <- data_gbp_nzd %>%
+1657736362866:model(ARIMA(formula = xrate ~ 1 + pdq(0, 0, 5) + PDQ(0, 0, 0)))
+1657736363034:model_ma_5 %>% report()
+1657736363132:data_gbp_nzd_augmented <- model_ma_5 %>% augment()
+1657736363201:plot_residuals_ts  <- data_gbp_nzd_augmented %>%
+1657736363211:autoplot(.vars=.resid)
+1657736363248:plot_residuals_hist <- data_gbp_nzd_augmented %>%
+1657736363256:ggplot(aes(x=.resid)) +
+1657736363264:geom_histogram(bins=10)
+1657736363299:plot_residuals_acf <- data_gbp_nzd_augmented %>%
+1657736363309:ACF(y=.resid) %>%
+1657736363318:autoplot()
+1657736363386:plot_residuals_pacf <- data_gbp_nzd_augmented %>%
+1657736363395:PACF(y=.resid) %>%
+1657736363403:autoplot()
+1657736363518:(plot_residuals_ts | plot_residuals_hist) /
+1657736363528:(plot_residuals_acf | plot_residuals_pacf)
+1657736364012:data_gbp_nzd_augmented %$%
+1657736364020:ljung_box(.resid)
+1657736364061:plot_actual_fitted_residuals <- data_gbp_nzd_augmented %>%
+1657736364069:ggplot() +
+1657736364076:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657736364082:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657736364089:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657736364096:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657736364103:scale_color_manual(
+1657736364109:name = 'Series',
+1657736364117:values = c(
+1657736364124:'values' = berkeley_blue,
+1657736364131:'fitted' = california_gold,
+1657736364138:'residuals' = 'darkred')) +
+1657736364146:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657736364198:plot_actual_fitted_residuals
+1657736364441:forecast(model_ma_5, h=6) %>%
+1657736364451:autoplot(data_gbp_nzd)
+1657736364859:model_backtesting <- data_gbp_nzd %>%
+1657736364867:filter(index <= 33) %>%
+1657736364874:model(ARIMA(formula = xrate ~ 1 + pdq(0,0,5) + PDQ(0,0,0)))
+1657736365038:backtesting_plot_data <- rbind(
+1657736365047:## backtesting data set
+1657736365055:augment(model_backtesting) %>%
+1657736365062:rename(.mean = .fitted) %>%
+1657736365070:mutate(source = 'backtesting model') %>%
+1657736365079:select(index, xrate, .mean, source) %>%
+1657736365087:as_tibble(),
+1657736365094:## original data set
+1657736365102:data_gbp_nzd %>%
+1657736365109:mutate(
+1657736365117:source = 'original data',
+1657736365124:.mean = NA) %>%
+1657736365132:select(index, xrate, .mean, source),
+1657736365139:## forecasting dataset
+1657736365147:model_backtesting %>%
+1657736365155:forecast(h=12) %>%
+1657736365164:as_tsibble() %>%
+1657736365171:mutate(
+1657736365178:source = 'forecast',
+1657736365186:xrate = NA) %>%
+1657736365193:select(index, xrate, .mean, source) %>%
+1657736365201:as_tibble()
+1657736365209:)
+1657736365369:backtesting_plot_data %>%
+1657736365377:ggplot() +
+1657736365384:aes(x=index) +
+1657736365392:geom_line(aes(y=xrate, color = source)) +
+1657736365400:geom_line(aes(y=.mean, color = source))
+1657736365642:model_arma_11 <- data_gbp_nzd %>%
+1657736365659:model(ARIMA(xrate ~ 1 + pdq(1, 0, 1) + PDQ(0, 0, 0)))
+1657736365878:model_arma_11 %>% report()
+1657736369334:plot_ts_resid <- model_arma_11 %>%
+1657736369342:augment() %>%
+1657736369351:autoplot(.vars=.resid)
+1657736369429:plot_hist_resid <- model_arma_11 %>%
+1657736369437:augment() %>%
+1657736369445:ggplot() +
+1657736369453:aes(x=.resid) +
+1657736369461:geom_histogram(bins=10)
+1657736369540:plot_acf_resid <- model_arma_11 %>%
+1657736369549:augment() %>%
+1657736369558:ACF(y=.resid) %>%
+1657736369566:autoplot()
+1657736369693:plot_pacf_resid <- model_arma_11 %>%
+1657736369702:augment() %>%
+1657736369711:PACF(y=.resid) %>%
+1657736369720:autoplot()
+1657736372123:(plot_ts_resid | plot_hist_resid) /
+1657736372132:(plot_acf_resid | plot_pacf_resid)
+1657737038207:autoplot(euretail) + ylab("Retail index") + xlab("Year")
+1657737048758:fpp2::autoplot(euretail) + ylab("Retail index") + xlab("Year")
+1657737155736:library(fpp)
+1657737163627:install.packages(fpp)
+1657737167414:install.packages('fpp')
+1657737218503:install.packages('fpp')
+1657737232577:install.packages('fpp')
+1657737278785:2+3
+1657737304316:install.packages('stargazer')
+1657737373348:install.packages('fpp')
+1657737396712:library(latex2exp)
+1657737396746:library(tidyverse)
+1657737398287:library(ggplot2)
+1657737398295:library(patchwork)
+1657737398329:library(data.table)
+1657737398421:library(magrittr)
+1657737398451:library(patchwork)
+1657737398466:library(tsibble)
+1657737398666:library(fpp3)
+1657737399211:library(fpp) # for older data.
+1657737399777:library(feasts)
+1657737399785:library(fable)
+1657737399794:library(astsa)
+1657737399831:library(lubridate)
+1657737399840:library(lmtest)
+1657737399853:berkeley_blue   <- '#003262'
+1657737399861:california_gold <- '#FDB515'
+1657737399877:options(htmltools.dir.version = FALSE)
+1657737399884:options(digits = 4)
+1657737399891:knitr::opts_chunk$set(echo = FALSE, dpi = 300, fig.height = 3)
+1657737399909:theme_set(theme_minimal())
+1657737400080:d <- fpp::euretail
+1657737403360:d
+1657737425191:class(d)
+1657737452520:?as_tsibble()
+1657737644270:x <- seq(as.Date("2016-01-01"), as.Date("2016-12-31"), by = "1 quarter")
+1657737645059:x
+1657737684208:fpp::euretail %>%
+1657737684215:pivot_longer()
+1657737701637:d <- fpp::euretail %>%
+1657737701644:as_tsibble()
+1657737703658:d
+1657737731237:autoplot(d)
+1657737736026:d
+1657737743771:autoplot(d, .vars=value)
+1657737913974:?difference()
+1657737994302:d
+1657738008761:d %>%
+1657738008770:mutate(
+1657738008776:diff_value = difference(value, 4, 1)
+1657738008783:)
+1657738030093:d %>%
+1657738030101:mutate(diff_value = difference(value, 4, 1)) %>%
+1657738030109:autoplot(.vars=diff_value)
+1657738179334:d <- d %>% mutate(diff_value = difference(value, 4, 1))
+1657738179355:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738179367:plot_acf_diff  <- d %>% ACF(y=diff_value)  + labs(title = 'ACF of Differenced Values')
+1657738212255:d <- d %>% mutate(diff_value = difference(value, 4, 1))
+1657738212278:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738212289:plot_acf_diff  <- d %>% ACF(y=diff_value) %>%
+1657738212296:autoplot() + labs(title = 'ACF of Differenced Values')
+1657738212377:plot_pacf_diff <- d %>% PACF(y=diff_value) %>%
+1657738212386:autoplot() + labs(title = 'PACF of Differenced Values')
+1657738232953:plot_ts_diff /
+1657738232962:(plot_acf_diff | plot_pacf_diff)
+1657738380261:d <- d %>% mutate(diff_value = difference(value, 1, 4))
+1657738382346:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738382359:plot_acf_diff  <- d %>% ACF(y=diff_value) %>%
+1657738382368:autoplot() + labs(title = 'ACF of Differenced Values')
+1657738382446:plot_pacf_diff <- d %>% PACF(y=diff_value) %>%
+1657738382461:autoplot() + labs(title = 'PACF of Differenced Values')
+1657738382601:plot_ts_diff /
+1657738382612:(plot_acf_diff | plot_pacf_diff)
+1657738398455:?difference
+1657738437880:?gg_tsdisplay
+1657738481076:d <- d %>% mutate(diff_value = difference(value, 4))
+1657738482680:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738482693:plot_acf_diff  <- d %>% ACF(y=diff_value) %>%
+1657738482700:autoplot() + labs(title = 'ACF of Differenced Values')
+1657738482782:plot_pacf_diff <- d %>% PACF(y=diff_value) %>%
+1657738482799:autoplot() + labs(title = 'PACF of Differenced Values')
+1657738482925:plot_ts_diff /
+1657738482939:(plot_acf_diff | plot_pacf_diff)
+1657738491054:d <- d %>% mutate(diff_value = difference(value, 1))
+1657738492443:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738492455:plot_acf_diff  <- d %>% ACF(y=diff_value) %>%
+1657738492462:autoplot() + labs(title = 'ACF of Differenced Values')
+1657738492791:plot_pacf_diff <- d %>% PACF(y=diff_value) %>%
+1657738492800:autoplot() + labs(title = 'PACF of Differenced Values')
+1657738492878:plot_ts_diff /
+1657738492887:(plot_acf_diff | plot_pacf_diff)
+1657738551894:d <- d %>% mutate(diff_value = difference(value, lag = 4))
+1657738553604:plot_ts_diff   <- d %>% autoplot(.vars=diff_value) + labs(title = 'Differenced Values')
+1657738553616:plot_acf_diff  <- d %>% ACF(y=diff_value) %>%
+1657738553623:autoplot() + labs(title = 'ACF of Differenced Values')
+1657738553708:plot_pacf_diff <- d %>% PACF(y=diff_value) %>%
+1657738553720:autoplot() + labs(title = 'PACF of Differenced Values')
+1657738553842:plot_ts_diff /
+1657738553852:(plot_acf_diff | plot_pacf_diff)
+1657739392287:euretail %>% difference(lag=4) %>% gg_tsdisplay()
+1657739403674:euretail %>% difference(lag=4)
+1657739420964:d %>% difference(lag=4) %>% gg_tsdisplay()
+1657739424804:d %>% difference(lag=4)
+1657739467270:d %>% gg_tsdisplay(y = diff_value)
+1657739479853:d %>% gg_tsdisplay(y = diff_value, plot_type = 'partial')
+1657739507408:d %>% gg_tsdisplay(y = diff(diff_value), plot_type = 'partial')
+1657739917232:d <- d %>%
+1657739917241:mutate(double_diff_value = difference(diff_value, lag = 1))
+1657739948983:d %>% gg_tsdisplay(y = double_diff_value)
+1657739955846:d %>% gg_tsdisplay(y = double_diff_value, plot_type = 'partial')
+1657739993312:d <- d %>%
+1657739993320:mutate(double_diff_value = diff(diff_value))
+1657740007185:d
+1657740474826:fit_model <- d %>%
+1657740474835:model(ARIMA(value ~ 1 + pdq(0,1,1) + PDQ(0,1,1)))
+1657740523961:fit_model %>%
+1657740523968:residuals()
+1657740547406:fit_model %>%
+1657740547424:residuals() %>%
+1657740547430:gg_tsdisplay(y = .resid, plot_type = 'partial')
+1657740577247:?gg_tsdisplay
+1657740780153:fit_models <- d %>%
+1657740780163:model(
+1657740780172:model_1 = ARIMA(value ~ 1 + pdq(0,1,1) + PDQ(0,1,1)),
+1657740780180:model_2 = ARIMA(value ~ 1 + pdq(0,1,2) + PDQ(0,1,1)),
+1657740780188:model_3 = ARIMA(value ~ 1 + pdq(0,1,3) + PDQ(0,1,3))
+1657740780195:)
+1657740787271:fit_models <- d %>%
+1657740787279:model(
+1657740787286:model_1 = ARIMA(value ~ 1 + pdq(0,1,1) + PDQ(0,1,1)),
+1657740787294:model_2 = ARIMA(value ~ 1 + pdq(0,1,2) + PDQ(0,1,1)),
+1657740787300:model_3 = ARIMA(value ~ 1 + pdq(0,1,3) + PDQ(0,1,3))
+1657740787307:)
+1657740790728:fit_models
+1657740854451:fit_models %>%
+1657740854461:pivot_longer()
+1657740883015:fit_models %>%
+1657740883024:pivot_longer(names_to = 'Model Name', values_to = 'Orders')
+1657740890595:fit_models
+1657740927359:global_economy
+1657740929425:caf_fit <- global_economy %>%
+1657740929433:filter(Code == "CAF") %>%
+1657740929441:model(arima210 = ARIMA(Exports ~ pdq(2,1,0)),
+1657740929448:arima013 = ARIMA(Exports ~ pdq(0,1,3)),
+1657740929456:stepwise = ARIMA(Exports),
+1657740929463:search = ARIMA(Exports, stepwise=FALSE))
+1657740933112:caf_fit
+1657740962979:caf_fit %>% pivot_longer()
+1657740977825:caf_fit %>% pivot_longer(!Country)
+1657740995781:caf_fit
+1657741100648:fit_models %>%
+1657741100657:pivot_longer(
+1657741100664:cols = c('model_1', 'model_2', 'model_3'),
+1657741100672:names_to = 'Model Name',
+1657741100679:values_to = 'Orders')
+1657741121866:glance(fit_models)
+1657741146047:glance(fit_models) %>%
+1657741146055:arrange(AICc)
+1657741163657:fit_models <- d %>%
+1657741163665:model(
+1657741163672:model_011 = ARIMA(value ~ 1 + pdq(0,1,1) + PDQ(0,1,1)),
+1657741163679:model_012 = ARIMA(value ~ 1 + pdq(0,1,2) + PDQ(0,1,1)),
+1657741163685:model_013 = ARIMA(value ~ 1 + pdq(0,1,3) + PDQ(0,1,3))
+1657741163692:)
+1657741165682:glance(fit_models) %>%
+1657741165690:arrange(AICc)
+1657741288362:fit_models %>%
+1657741288371:forecast(h=12) %>%
+1657741288379:filter(.model = 'model_013') %>%
+1657741288386:autoplot(euretail)
+1657741292471:fit_models %>%
+1657741292479:forecast(h=12) %>%
+1657741292486:filter(.model == 'model_013') %>%
+1657741292493:autoplot(euretail)
+1657741305838:fit_models %>%
+1657741305846:filter(.model == 'model_013') %>%
+1657741305853:forecast(h=12) %>%
+1657741305861:autoplot(euretail)
+1657741331400:fit_models %>% forecast(h=12)
+1657741341644:fit_models %>%
+1657741341653:forecast(h=12) %>%
+1657741341660:# filter(.model == 'model_013') %>%
+1657741341668:autoplot(euretail)
+1657741386277:glance(fit_models) %>%
+1657741386285:arrange(AICc)
+1657741412583:glance(fit_models) %>%
+1657741412591:arrange(AICc) %>%
+1657741412599:select(.model, log_lik, AIC, AICc, BIC)
+1657741648050:fit_models
+1657741659488:fit_models %>%
+1657741659495:select(search)
+1657741703912:fit_models
+1657741732977:fit_models %>%
+1657741732987:select(model_013)
+1657741748654:fit_models %>%
+1657741748662:select(model_013) %>%
+1657741748669:gg_tsdisplay()
+1657741756596:fit_models %>%
+1657741756605:select(model_013) %>%
+1657741756613:gg_tsresidudals()
+1657741763167:fit_models %>%
+1657741763175:select(model_013) %>%
+1657741763183:gg_tsresiduals()
+1657741807356:fit_models %>%
+1657741807365:select(model_013) %>%
+1657741807373:gg_tsresiduals(type = 'partial')
+1657741823949:fit_models %>%
+1657741823957:select(model_013) %>%
+1657741823965:gg_tsdisplay(y = .resid, plot_type = 'partial')
+1657741833640:fit_models %>%
+1657741833648:select(model_013) %>%
+1657741833655:augment() %>%
+1657741833663:gg_tsdisplay(y = .resid, plot_type = 'partial')
+1657741917345:fit_models %>%
+1657741917353:forecast(h=12) %>%
+1657741917361:filter(model = 'model_013') %>%
+1657741917368:autoplot(euretail)
+1657741931493:fit_models %>%
+1657741931501:forecast(h=12) %>%
+1657741931508:filter(.model = 'model_013') %>%
+1657741931515:autoplot(euretail)
+1657741937331:fit_models %>%
+1657741937339:forecast(h=12) %>%
+1657741937347:filter(.model= 'model_013') %>%
+1657741937354:autoplot(euretail)
+1657741939005:fit_models %>%
+1657741939014:forecast(h=12) %>%
+1657741939022:filter(.model == 'model_013') %>%
+1657741939029:autoplot(euretail)
+1657742479405:aus_production
+1657742725659:aus_production %>%
+1657742725668:glimpse()
+1657742766603:aus_production %>%
+1657742766612:select(Electricity)
+1657742778592:aus_production %>%
+1657742778601:select(Electricity) %>%
+1657742778609:gg_tsdisplay()
+1657742792748:aus_production %>%
+1657742792757:select(Electricity) %>%
+1657742792763:gg_tsdisplay(plot_type = 'partial')
+1657742884752:aus_production %>%
+1657742884761:select(Electricity) %>%
+1657742884767:gg_tsdisplay()
+1657742897827:aus_production %>%
+1657742897834:select(Electricity) %>%
+1657742897842:gg_tsdisplay(plot_type = 'partial')
+1657742911133:aus_production %>%
+1657742911141:select(Electricity) %>%
+1657742911148:gg_tsdisplay(y=Electricity, plot_type = 'partial')
+1657743081277:aus_electric <- aus_production %>%
+1657743081285:select(Electricity)
+1657743081320:aus_electric %>%
+1657743081327:gg_tsdisplay(y=Electricity, plot_type = 'partial')
+1657743104189:aus_electric %>% autoplot()
+1657743119791:aus_electric %>% autoplot(.vars = Electricity)
+1657743136220:aus_electric %>% autoplot(.vars = first_diff)
+1657743143003:aus_electric <- aus_electric %>%
+1657743143011:mutate(
+1657743143019:first_diff     = difference(Electricity, lag=1),
+1657743143027:first_log_diff = difference(log(Electricity), lag=1)
+1657743143034:)
+1657743145132:aus_electric %>% autoplot(.vars = first_diff)
+1657743162666:aus_electric %>% autoplot(.vars = first_log_diff)
+1657743203132:plot_ts        <- aus_electric %>% autoplot(.vars = Electricity)
+1657743203163:plots_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff)
+1657743203193:plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff)
+1657743246950:plot_ts        <- aus_electric %>% autoplot(.vars = Electricity) +
+1657743246958:labs(title = 'Raw Series')
+1657743246991:plots_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff) +
+1657743246998:labs(title = 'First Difference')
+1657743247030:plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff) +
+1657743247038:labs(tile = 'Difference in Log')
+1657743259103:(plot_ts) /
+1657743259112:(plot_ts_fd | plot_ts_log_fd)
+1657743262332:plot_ts        <- aus_electric %>% autoplot(.vars = Electricity) +
+1657743262341:labs(title = 'Raw Series')
+1657743262375:plots_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff) +
+1657743262383:labs(title = 'First Difference')
+1657743262416:plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff) +
+1657743262423:labs(tile = 'Difference in Log')
+1657743264121:(plot_ts) /
+1657743264130:(plot_ts_fd | plot_ts_log_fd)
+1657743268348:plot_ts        <- aus_electric %>% autoplot(.vars = Electricity) +
+1657743268356:labs(title = 'Raw Series')
+1657743268385:plot_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff) +
+1657743268391:labs(title = 'First Difference')
+1657743268421:plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff) +
+1657743268428:labs(tile = 'Difference in Log')
+1657743271399:(plot_ts) /
+1657743271406:(plot_ts_fd | plot_ts_log_fd)
+1657743281083:(plot_ts) /
+1657743281091:(plot_ts_fd | plot_ts_log_fd)
+1657743293768:plot_ts        <- aus_electric %>% autoplot(.vars = Electricity) +
+1657743293775:labs(title = 'Raw Series')
+1657743293807:plot_ts_fd    <- aus_electric %>% autoplot(.vars = first_diff) +
+1657743293814:labs(title = 'First Difference')
+1657743293846:plot_ts_log_fd <- aus_electric %>% autoplot(.vars = first_log_diff) +
+1657743293852:labs(title = 'Difference in Log')
+1657743363572:aus_electric %>%
+1657743363583:ACF(y=Electricity) %>%
+1657743363591:autoplot()
+1657743424285:aus_electric %>%
+1657743424293:ACF(y=Electricity) %>%
+1657743424300:autoplot()
+1657743424459:aus_electric %>%
+1657743424468:ACF(y=first_diff) %>%
+1657743424476:autoplot()
+1657743424732:aus_electric %>%
+1657743424743:PACF(y=first_diff)
+1657743424822:aus_electric %>%
+1657743424833:ACF(y=first_log_diff) %>%
+1657743424843:autoplot()
+1657743425097:aus_electric %>%
+1657743425104:ACF(y=first_log_diff) %>%
+1657743425110:autoplot()
+1657743505559:p1 <- aus_electric %>%
+1657743505568:ACF(y=Electricity) %>%
+1657743505575:autoplot() + labs(title = 'ACF: Raw Series')
+1657743505643:p2 <- aus_electric %>%
+1657743505651:ACF(y=first_diff) %>%
+1657743505659:autoplot() + labs(title = 'ACF: FD Series')
+1657743505747:p3 <- aus_electric %>%
+1657743505756:PACF(y=first_diff) + labs(title = 'PACF: FD Series')
+1657743522234:p1 <- aus_electric %>%
+1657743522243:ACF(y=Electricity) %>%
+1657743522252:autoplot() + labs(title = 'ACF: Raw Series')
+1657743522331:p2 <- aus_electric %>%
+1657743522341:ACF(y=first_diff) %>%
+1657743522352:autoplot() + labs(title = 'ACF: FD Series')
+1657743522427:p3 <- aus_electric %>%
+1657743522435:PACF(y=first_diff) %>%
+1657743522445:autoplot() + labs(title = 'PACF: FD Series')
+1657743522521:p4 <- aus_electric %>%
+1657743522530:ACF(y=first_log_diff) %>%
+1657743522540:autoplot() + labs(title = 'ACF: FD Log Series')
+1657743522609:p5 <- aus_electric %>%
+1657743522620:ACF(y=first_log_diff) %>%
+1657743522628:autoplot() + labs(title = 'PACF: FD Log Series')
+1657743534045:p1 /
+1657743534053:(p2 | p3) /
+1657743534061:(p4 | p5)
+1657750919382:elec_fit <- aus_electric %>%
+1657750919391:model(
+1657750919398:ARIMA(Electricity ~ 1 + pdq(1,1,2) + PDQ(0,1,1))
+1657750919406:)
+1657750919594:elec_fit %>% report()
+1657751013421:aus_electric
+1657751151270:elec_fit %>%
+1657751151280:augment() %>%
+1657751151288:gg_tsresiduals()
+1657751157305:elec_fit %>%
+1657751157314:gg_tsresiduals()
+1657751171696:?gg_tsresiduals
+1657751204185:elec_fit %>%
+1657751204225:gg_tsresiduals()
+1657751347820:feasts::ljung_box(elec_fit)
+1657751372460:elec_fit %>%
+1657751372467:autment() %>%
+1657751372474:ljung_box()
+1657751377187:elec_fit %>%
+1657751377193:augment() %>%
+1657751377199:ljung_box()
+1657751385955:elec_fit %>%
+1657751385962:augment() %>%
+1657751385969:ljung_box(x=.resid)
+1657751391441:elec_fit %>%
+1657751391456:augment()
+1657751406745:elec_fit %>%
+1657751406753:augment() %>%
+1657751406760:ljung_box(x=.resid)
+1657751414304:elec_fit %>%
+1657751414311:augment() %$%
+1657751414318:ljung_box(x=.resid)
+1657751619930:aus_electric
+1657751648197:elec_fit %>%
+1657751648205:augment()
+1657751730705:elec_fit %>%
+1657751730715:augment() %>%
+1657751730722:ggplot() +
+1657751730729:geom_line(aes(x=Quarter, y=Electricity, color = 'Original Series')) +
+1657751730735:geom_line(aes(x=Quarter, y=.fitted, color = 'Estimated Series')) +
+1657751730742:geom_line(aes(x=Quarter, y=.resid, color = 'Residuals'), linetype = 'dashed')
+1657751780872:p1 <- elec_fit %>%
+1657751780881:augment() %>%
+1657751780888:ggplot() +
+1657751780895:geom_line(aes(x=Quarter, y=Electricity, color = 'Original Series')) +
+1657751780901:geom_line(aes(x=Quarter, y=.fitted, color = 'Estimated Series')) +
+1657751780912:p2 <- elec_fit %>%
+1657751780918:augment() %>%
+1657751780925:ggplot() +
+1657751780932:geom_line(aes(x=Quarter, y=.resid, color = 'Residuals'), linetype = 'dashed')
+1657751802173:p1 <- elec_fit %>%
+1657751802180:augment() %>%
+1657751802191:ggplot() +
+1657751802199:geom_line(aes(x=Quarter, y=Electricity, color = 'Original Series')) +
+1657751802207:geom_line(aes(x=Quarter, y=.fitted, color = 'Estimated Series'))
+1657751802292:p2 <- elec_fit %>%
+1657751802301:augment() %>%
+1657751802311:ggplot() +
+1657751802320:geom_line(aes(x=Quarter, y=.resid, color = 'Residuals'), linetype = 'dashed')
+1657751802409:p1 / p2
+1657751862522:elec_fit %>%
+1657751862530:forecast(h=12) %>%
+1657751862536:autoplot(aus_elec)
+1657751868629:elec_fit %>%
+1657751868638:forecast(h=12) %>%
+1657751868645:autoplot(aus_electric)
+1657751916548:aus_electric
+1657751928918:elec_fit %>%
+1657751928927:forecast(h=12) %>%
+1657751928935:autoplot(aus_electric[aus_electric$Quarter > yearQuarter(1980)])
+1657751936438:elec_fit %>%
+1657751936446:forecast(h=12) %>%
+1657751936454:autoplot(aus_electric[aus_electric$Quarter > yearquarter(1980)])
+1657751945759:aus_electric
+1657752001348:elec_fit %>%
+1657752001357:forecast(h=12) %>%
+1657752001364:autoplot(aus_electric[aus_electric$Quarter > yearquarter(1980)])
+1657752008782:elec_fit %>%
+1657752008789:forecast(h=12) %>%
+1657752008796:autoplot(aus_electric[aus_electric$Quarter > yearquarter(1980),])
+1657752032134:elec_fit %>%
+1657752032143:forecast(h=12) %>%
+1657752032150:autoplot(aus_electric)

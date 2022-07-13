@@ -1,0 +1,3 @@
+"0","glance(fit_models) %>% "
+"0","  arrange(AICc) %>% "
+"0","  select(.model, log_lik, AIC, AICc, BIC)"

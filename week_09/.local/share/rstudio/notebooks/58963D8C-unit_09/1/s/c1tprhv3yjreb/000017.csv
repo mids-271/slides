@@ -1,8 +1,0 @@
-"0","random_walk_with_drift <- function(time_periods=100, drift=0.5, variance=1){"
-"0","  rwd <- rep(NA, time_periods)"
-"0","  rwd[1] <- 0"
-"0","  for(i in 2:time_periods) {rwd[i] <- drift + rwd[i-1] + rnorm(1, 0, variance)}"
-"0","  return(rwd)"
-"0","}"
-"0",""
-"0","ggplot() + geom_line(aes(x=1:100, y=random_walk_with_drift(100)))"

@@ -1,0 +1,1 @@
+"0","d <- d %>% mutate(diff_value = difference(value, 1))"

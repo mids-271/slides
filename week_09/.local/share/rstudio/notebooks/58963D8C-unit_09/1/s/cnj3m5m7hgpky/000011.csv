@@ -1,2 +1,0 @@
-"0","forecast(backtest_model_fit, h=10) %>% "
-"0","  autoplot(series)"

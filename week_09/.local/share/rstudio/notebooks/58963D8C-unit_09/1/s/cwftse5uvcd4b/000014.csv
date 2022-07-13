@@ -1,8 +1,0 @@
-"0","random_walk <- function(time_periods=100, variance=1){"
-"0","  rw <- rep(NA, time_periods)"
-"0","  rw[1] <- 0"
-"0","  for(i in 2:time_periods) {rw[i] <- rw[i-1] + rnorm(1, 0, variance)}"
-"0","  return(rw)"
-"0","}"
-"0",""
-"0","ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))"

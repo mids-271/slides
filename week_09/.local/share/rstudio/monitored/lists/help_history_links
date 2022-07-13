@@ -1,8 +1,3 @@
-help/doc/html/Search?objects=1&port=8787,R: Search Results
-help/library/fable/html/ARIMA.html,R: Estimate an ARIMA model
-help/library/ggplot2/html/sec_axis.html,R: Specify a secondary axis
-help/library/NULL/help/forecast,forecast
-help/library/fabletools/html/forecast.html,R: Produce forecasts
 help/library/ggplot2/html/aes.html,R: Construct aesthetic mappings
 help/library/NULL/help/fable,fable
 help/library/fable/html/fable-package.html,R: fable: Forecasting Models for Tidy Time Series
@@ -13,3 +8,8 @@ help/library/feasts/html/reexports.html,R: Objects exported from other packages
 help/library/ggplot2/html/autoplot.html,R: Create a complete ggplot appropriate to a particular data...
 help/library/NULL/help/autoplot,autoplot
 help/library/tsibble/html/tsibble.html,R: Create a tsibble object
+help/library/NULL/help/as_tsibble,as_tsibble
+help/library/tsibble/html/as-tsibble.html,R: Coerce to a tsibble object
+help/library/tsibble/html/difference.html,R: Lagged differences
+help/library/feasts/html/gg_tsdisplay.html,R: Ensemble of time series displays
+help/library/feasts/html/gg_tsresiduals.html,R: Ensemble of time series residual diagnostic plots

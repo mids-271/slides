@@ -1,0 +1,3 @@
+"0","elec_fit %>% "
+"0","  forecast(h=12) %>% "
+"0","  autoplot(aus_electric)"
