@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>w271: Categorical, Time Series, and Panel Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeffrey Yau" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# w271: Categorical, Time Series, and Panel Regression
+## Autoregressive and Moving Average Models
+### Jeffrey Yau
+### UC Berkeley, School of Information
+### Updated: 2022-07-13
+
+---
+
+
+
+
+class: inverse, center, middle 
+
+# Mathematical Formulation and Properties of ARMA Models 
+
+---
+
+# Mathematical Formulation of ARMA(p,q) Models, Part 1
+
+A time series `\(x_{t}: \dots , -2, -1, 0, 1,2, \dots\)` is called a **mixed autoregressive moving average process** of order `\((p,q)\)`, denoted `\(ARMA(p,q)\)` if it is stationary and takes the following functional form: 
+
+`$$x_{t} = \phi_{1}x_{t-1} + \dots + \phi_{p}x_{t-p} + \omega_{t} - \theta_{1}\omega_{t-1} - \dots - \theta_{q}\omega_{t-q}$$`
+
+where `\(\phi_{p} \neq 0, \theta_{q} \neq 0\)`, and `\(\sigma_{\omega}^{2} &gt; 0\)`. Also, we implicitly assume that the series `\(x_{t}\)` is demeaned: `\(x_{t} - \mu\)`. To simplify notation, we do not use `\(\tilde{x}\)` where `\(\tilde{x} = x_{t} - \mu\)`. 
+
+The parameters `\(p\)` and `\(q\)` are respectively called the *autoregressive* and *moving average* orders. 
+
+To incorporate a non-zero mean, `\(\mu\)` into the model, we set `\(\alpha = \mu(1 - \phi_{1} - \dots - \phi_{p})\)` and re-write the model as: 
+
+`$$x_{t} = \alpha + \phi_{1}x_{t-1} + \dots + \phi_{p}x_{t-p} + \omega_{t} + \theta_{1}\omega_{t-1} + \dots + \theta_{q}\omega_{t-q}$$`
+
+where `\(\omega_{t}\)` is assumed to be a Gaussian white noise time series with mean zero and variance `\(\sigma_{\omega}^{2}\)`. 
+
+---
+
+# Mathematical Formulation of ARMA(p,q) Models, Part 2
+
+Using `\(AR\)` and `\(MA\)` operators defined in the last lecture, the `\(ARMA(p,q)\)` model can be expressed concisely using the Backshift operator: 
+
+`$$\phi(B)x_{t} = \theta(B)\omega_{t}$$`
+
+Because the process is stationary, its mean is constant over time: 
+
+`$$\mu = \alpha + \phi_{1}\mu + \dots + \phi_{p}\mu$$` 
+
+which can be rewritten as: 
+
+`$$\mu = \frac{\alpha}{1 - \phi_{1} - \dots - \phi_{p}}$$`
+
+---
+
+# Properties of the ARMA Model: ARMA(1,1)
+
+To study the properties of the `\(ARMA(p,q)\)` model, first consider the `\(ARMA(1,1)\)` model: 
+
+`$$x_{t} = \phi x_{t-1} + \omega_{t} + \theta\omega_{t-1}$$`
+
+where `\(\{\omega_{t} \} \sim WN(0, \sigma^{2})\)` and `\(\phi + \theta \neq 0\)`. 
+
+Rewriting the model using the Backshift operator: 
+
+`$$\phi(B)x_{t} = \theta(B)\omega_{t}$$`
+
+where `\(\phi(B)\)` and `\(\theta(B)\)` are the linear filters. 
+
+$$\phi(B) = 1 - \phi(B) \text{ and } \theta(B) = 1 + \theta(B) $$
+
+where the bases of `\(\phi(z)\)` lie outside the unit circle, so the model is stationary. 
+
+## In other words: 
+
+In the simple `\(ARMA(1,1)\)` model, a stationary solution exists if and only if `\(\phi \neq \{1, -1\}\)`. 
+
+---
+
+# Mean, Variance, and Autocovariance of ARMA(1,1) Model 
+
+Write the process using the infinate `\(MA\)` representation: 
+
+`$$x_{t} = \sum_{j=0}^{\infty} \psi_{j}\omega_{t-j}$$`
+
+It follows immediately that `\(E[x_{t}] = 0\)`. 
+
+The autocovariance function is: 
+
+`$$\gamma(h) = cov(x_{t+h}, x_{t}) = \sigma_{\omega}^{2} \sum_{j=0}^{\infty}\psi_{j}\psi_{j+h}, \quad h \geq 0$$`
+
+---
+
+# Autocorrelation Function of the ARMA(1,1) Model, Part 1 
+
+The autocovariance function satisfies the following statement: 
+
+`$$\gamma(h) - \phi\gamma(h-1) = 0, \quad h = 2, 3, \dots$$`
+
+And, with some algebra, we can write this in the following form: 
+
+`$$\gamma(h) = \frac{\gamma(1)}{\phi}\phi_{h} = \sigma_{\omega}^{2} \frac{(1 + \theta\phi)(\phi + \theta)}{(1 - \phi^{2})}\phi^{h-1}$$`
+
+The autocorrelation function at time lag `\(h\)` is the ratio of autocovariance at that time `\(h\)` divided by the variance: 
+
+`$$\rho(h) = \frac{\gamma(h)}{\gamma(0)}$$`
+
+`$$\rho(h) = \frac{(1 + \theta\phi)(\phi + \theta)}{(1 - \phi^{2})}\phi^{h-1}, \quad h \geq 1$$`
+
+---
+
+# Autocorrelation Function of the ARMA(1,1) Model, Part 2
+
+The `\(ACF\)` of an `\(AR(1)\)` model takes the following form: 
+
+`$$\rho(h) = \frac{\gamma(h)}{\gamma(0)} = \phi^{h}, \quad h \geq 0$$`
+
+- Note that the general form of the autocorrelation functions between the two models are **not** that different from each other. 
+- For this reason, it is very hard to distinguish an `\(ARMA(1,1)\)` and an `\(AR(1)\)` model from one another based only on the sample `\(ACF\)`. 
+
+---
+
+class: inverse, center, middle 
+
+# Comparing ARMA Models and AR Models Using Simulated Series, Part 1
+
+---
+
+# ACF or ARMA and AR Models: Recap
+
+- Recall that the `\(ACF\)` or `\(ARMA\)` models and `\(AR\)` models are hard to distinguish. 
+- Their functional forms are: 
+
+## ACF of ARMA(1,1) Model 
+
+$$ \rho(h) = \frac{(1 + \theta\phi)(\phi + \theta)}{(1 - \phi^{2})}\phi^{h-1}, \quad h \geq 1$$
+
+## ACF of AR(1) Model 
+
+`$$\rho(h) = \frac{\gamma(h)}{\gamma(0)} = \phi^{h}, \quad h \geq 0$$`
+
+- These functional forms differ only by a constant multiple. 
+- Therefore, using the ACF alone is insufficient for model "identification" 
+
+---
+
+# Time Series Plots of AR(1) and ARMA(1,1) Models, Part 1 
+
+- All simulations in this module have 100 simulated points. 
+- If the `\(AR\)` parts of the `\(AR(1)\)` and `\(ARMA(1,1)\)` models are identical, it is **very difficult** to distinguish between the two based only on the time-plots. 
+
+
+
+
+
+![](unit_09_files/figure-html/layout plots-1.png)&lt;!-- --&gt;
+
+---
+
+# Time Series Plots of AR(1) and ARMA(1,1) Models, Part 2
+
+- Adding an additional `\(AR\)` and/or `\(MA\)` term does not help to distinguish the model. 
+- And, adding an additional `\(AR\)` term with a negative coefficient makes the distinction harder. 
+
+
+
+
+
+![](unit_09_files/figure-html/layout more plots-1.png)&lt;!-- --&gt;
+
+---
+
+# ACF of AR(1) and ARMA(1,1) Models 
+
+- As seen from the theoretical `\(ACF\)`, using a correlogram alone cannot distinguish `\(AR\)` and `\(ARMA\)` models. 
+- We'll examine the empirical `\(ACF\)` from the simulated models. 
+
+
+
+![](unit_09_files/figure-html/layout acf plots-1.png)&lt;!-- --&gt;
+
+---
+
+# PACF of AR(1) and ARMA(1,1) Models 
+
+- The `\(PACF\)` of `\(AR(p)\)` models sharply drop off after `\(p\)` lags while the `\(PACF\)` of `\(ARMA(p,q)\)` models generally gradually decline to zero. 
+- But, this isn't a guarantee, and the slides in the async do not produce an observable difference. 
+
+
+
+![](unit_09_files/figure-html/layout of pacf plots-1.png)&lt;!-- --&gt;
+
+---
+
+# PACF of AR(1) and ARMA(1,1) Models 
+
+- With higher-order series, there is a similar difficulty in observing differences between series. 
+
+
+
+![](unit_09_files/figure-html/layout higher-order pacf plots-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle
+
+# Comparing ARMA Models Using Simulated Series, Part 2: Model Identification
+
+---
+
+# AR vs. ARMA Models: Another Example 
+
+- One more example with three `\(AR(1)\)` models and one `\(ARMA(2,1)\)` model
+
+
+```r
+set.seed(898)
+
+ar1_1 &lt;- arima.sim(n=100, model=list(ar=0.4))                 %&gt;% as_tsibble()
+ar1_2 &lt;- arima.sim(n=100, model=list(ar=0.8))                 %&gt;% as_tsibble() 
+ar1_3 &lt;- arima.sim(n=100, model=list(ar=0.9))                 %&gt;% as_tsibble() 
+ar2_1 &lt;- arima.sim(n=100, model=list(ar=c(0.6, 0.3), ma=0.5)) %&gt;% as_tsibble()
+```
+
+- The closer the `\(AR\)` parameter to `\(1\)`, the more persistent the series. 
+- Both `\(AR(ar=0.9)\)` and `\(ARMA(ar=0.6, ma=0.3)\)` can produce very persistent series
+
+---
+
+# AR vs. ARMA Models: Another Example 
+
+
+
+![](unit_09_files/figure-html/layout arma plots for final set-1.png)&lt;!-- --&gt;
+
+---
+
+# AR vs. ARMA Models, ACF
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+
+---
+
+# AR vs. ARMA Models: PACF
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+
+---
+
+# ARMA-Type Model Identification 
+
+- In general, the `\(ACF\)` and `\(PACF\)` of `\(AR(p)\)`, `\(MA(q)\)`, and `\(ARMA(p,q)\)` models have the following characteristics. 
+
+|        | `\(AR(p)\)`                | `\(MA(q)\)`                | `\(ARMA(p,q)\)` |
+|--------|------------------------|------------------------|-------------|
+| `\(ACF\)`  | Tails off              | Cuts off after lag `\(q\)` | Tails Off   |
+| `\(PACF\)` | Cuts off after lag `\(p\)` | Tails off              | Tails Off   |
+
+- As we have seen in the simulated examples, these features can be used only to narrow down the possibilities of processes underlying a realization of the observed series
+- In practice, we typically estimate a series of `\(ARMA\)` models of different orders, and use `\(AIC\)` and `\(BIC\)` (and maybe even forecast performance) to choose a model. 
+
+---
+
+class: inverse, center, middle
+
+# Modeling the BPD - NZD Exchange Rate, Part 1
+
+---
+
+# The Data: Basic Structure 
+
+- This is the British pound `\(\leftrightarrow\)` New Zealand dollar exchange rate series provided by *Introductory Time Series with R* (obtained from a GitHub port).
+- It is an annual series with 39 observations and contains only the series itself (i.e. one variable) 
+
+
+```
+## Rows: 39
+## Columns: 2
+## $ xrate &lt;dbl&gt; 2.924, 2.942, 3.172, 3.254, 3.348, 3.507, 3.003, 2.844, 2.838, 2…
+## $ index &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1…
+```
+
+---
+
+# Descriptive Statistics and Data Visualization 
+
+- Similar to the USD `\(\leftrightarrow\)` NZD exchange rate series, this series is very persistent; a feature that cannot be seen using only the histogram and descriptive statistics. 
+- It does not appear to be captured well by a `\(MA\)` model, but perhaps an `\(ARMA\)` model will do better? 
+
+
+
+![](unit_09_files/figure-html/layout nzd plots-1.png)&lt;!-- --&gt;
+
+---
+
+# Estimation: MA(5) Model 
+
+- We will estimate a `\(MA\)` model for comparison 
+- The first four `\(MA\)` parameters are all significant 
+- Note that the last `\(MA\)` parameter is not significant
+- At this point, it is hard to judge how good the estimation is. To do so, we have to examine the residuals, visualize the in-sample fit, and the out-of-sample forecast. 
+
+
+```
+## Series: xrate 
+## Model: ARIMA(0,0,5) w/ mean 
+## 
+## Coefficients:
+##          ma1     ma2    ma3     ma4     ma5  constant
+##       1.5392  1.3342  1.169  0.6446  0.2703    2.8730
+## s.e.  0.1957  0.2958  0.277  0.2652  0.1699    0.1122
+## 
+## sigma^2 estimated as 0.01776:  log likelihood=24.17
+## AIC=-34.34   AICc=-30.73   BIC=-22.7
+```
+
+--- 
+
+# Model Diagnostics 
+
+- The time series plot of the residuals does not suggest a white noise sample path.
+- However, both the ACF and PACF do not show any statistical significant autocorrelations.
+- The null hypothesis that the series is not correlated cannot be rejected based on the Ljung-Box test. 
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+```
+##   lb_stat lb_pvalue 
+##    0.4952    0.4816
+```
+
+---
+
+# Model Performance Evaluation: In-Sample Fit
+
+- The following time series plot displays the original series, which has 39 observations, the estimated values (in blue), overlaid with the residual series (in green and right y-axis).
+- In-sample fit “looks reasonable.”
+
+![](unit_09_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+---
+
+# Forecasting 
+
+- This plot shows the original series, the estimated values, and a six-step ahead forecast and the forecasting intervals. 
+
+![](unit_09_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+# Back Testing and Out of Sample Testing 
+
+- An alternative way to evaluate the model (or the class of model) under consideration is to use out-of-sample forecasting (or back-testing) by leaving out a subsample in the estimation. 
+- Leaving out a subsample from a time series has to be done **carefully** because it is not sensible to just "randomly" drop observations from the series. **Doing so would break the dependency structure in the series.** 
+- In the next backtesting example, we exclude the last-six observations (retaining the first 33 observations) from the sample and re-estimating the `\(MA(5)\)` model. 
+- Then, produce a 12-step ahead forecast. 
+  - Because the last six observations are actually observed, we can compare the forecasts with actual values. 
+  - This process is called *backtesting*. 
+  
+---
+
+# Back-Testing and Out-of-Sample Forecasting 
+
+- This shows a dramatic difference from the forecast using the entire series. 
+- The forecast continues the downward trend in the observed series
+- The forecast after the first five series stays flat (do you remember why?)
+
+![](unit_09_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle 
+
+# Modeling the BPD - NZD Exchange Rate, Part 2
+
+---
+
+# Estimation: ARMA(1,1) Model 
+
+- Based on the time seiries, `\(ACF\)`, and `\(PACF\)` plots, a low-order `\(ARMA\)` model may do a better job than a higher-order "pure" `\(MA\)` model. 
+- Let's estimate an `\(ARMA(1,1)\)` model.
+- The `\(AR(p)\)` and `\(MA(q)\)` parameters are statistically significant 
+- Note that the `\(AR(q)\)` parameter is close to `\(1\)`. 
+
+
+```
+## Series: xrate 
+## Model: ARIMA(1,0,1) w/ mean 
+## 
+## Coefficients:
+##          ar1     ma1  constant
+##       0.8925  0.5319    0.3183
+## s.e.  0.0759  0.2021    0.0262
+## 
+## sigma^2 estimated as 0.01631:  log likelihood=25.14
+## AIC=-42.27   AICc=-41.1   BIC=-35.62
+```
+
+---
+
+# Model Diagnostics 
+
+- The `\(ACF\)`, `\(PACF\)` and Lyung-Box test cannot reject the null-hypothesis that the residual series come sfrom a white noise process. 
+- Note that these are underpowered tests -- there are only `\(39\)` observations in total. 
+
+
+
+![](unit_09_files/figure-html/layout arma(1-0-1) plots-1.png)&lt;!-- --&gt;
+
+--- 
+
+# Model Performance Evaluation: In-Sample Fit
+
+- Like the `\(MA(5)\)` model, the ini-sample fit from the `\(ARMA(1,1)\)` model looks "reasonable".
+
+![](unit_09_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+# Forecasting 
+
+- Notice that the forecast still trends downward, although it does not decline as rapidly as that of the `\(MA(5)\)` model. 
+
+![](unit_09_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+---
+
+# Direct Comparison Between MA(5) and ARMA(1,1)
+
+- Using the tools from `fpp3` we can fit several models, and compare their forecasting performance. 
+
+![](unit_09_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+---
+
+# Back-Testing and Out-of-Sample Forecasting 
+
+- Re-estimate the `\(ARMA(1,1)\)` model using on the first `\(33\)` (of `\(39\)`) observations in the original series. 
+- All of the parameters continue to be significant. 
+
+
+```
+## Warning: Removed 12 row(s) containing missing values (geom_path).
+```
+
+```
+## Warning: Removed 39 row(s) containing missing values (geom_path).
+```
+
+![](unit_09_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+---
+
+# Not in Lecture
+
+- There is a very sharp decline in the exchange rate between the 30th and 33 time periods 
+- What would happen if our back testing had instead backtested against 10 periods? 
+
+
+
+![](unit_09_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle 
+
+# Review of Steps to Build ARMA Time Series Model 
+
+---
+
+# General Steps to Analyze a Time Series Model, Part 1  
+
+1. Based on interaction of *theory*, *subject knowledge*, and *practice* consider a useful class of models. 
+2. Collect and clean and structure the data. 
+3. Conduct **exploratory time series data analysis** by plotting the series, examining the main patterns and atypical observations of the plots. 
+  - What are the *trends* in the data? 
+  - What are the *fluctuations around the trend* in the data? 
+    - Is there seasonal variation? 
+    - Is there other cyclical variation? 
+  - Are there sharp changes in behavior (e.g. structural changes, or jumps)? 
+  - Are there outliers in the data that deserve attention? 
+4. Examine and statistically test whether the series is stationary (if applying a model that relies upon stationarity)
+
+---
+
+# # General Steps to Analyze a Time Series Model, Part 2
+
+5. If the series is not stationary, transform it to a stationary series. 
+  - Detrend, remove seasons, or apply a logarithmic or difference transformation
+6. Model the stationary series with a stationary or integrated time series model. 
+7. Examine the validity of the model's assumptions
+  - *This is important!* 
+  - If the model's assumptions are not satisfied, inference and forecasting hold no statistical guarantees, and **one should not proceed with statisical forecasting**. 
+8. Among the valid models, choose the one that best satisfies the metric that you have pre-specified as your model selection metric
+9. One you have chosen a (statistically) valid model, conduct statistical inference and/or forecasting. **Do so only if the underlying statistical assumptions are satisfied.**
+
+---
+
+# Modeling Procedures for ARMA Models 
+
+When estimating `\(ARMA\)` models using a time series, we use the following steps: 
+
+1. Plot the data, identify the key dynamics and unusual observations. 
+2. If necessary, transform the data (using a Box-Cox transformation) to stabilize the variance
+3. If the data are not stationary: Take first differences until the data **is** stationary. 
+4. Examine the `\(ACF\)` and `\(PACF\)`: Is an `\(AR(p)\)` or an `\(MA(q)\)` model obviously appropriate? 
+5. Try the chosen model, and use `\(AICc\)` to search for models that might improve on your baseline model. 
+6. Conduct diagnostic and formal model assumption testing: 
+  - Check the residuals
+  - Plot the the `\(ACF\)` of the residuals 
+  - Consider a portmanteau test of residuals. 
+  - If they do **not** look like white noise, the model needs to be respecified, reestimated, and retested. 
+7. Once the hypothesis that the residuals follow a white-noise process cannot be rejected, the model can be used for forecasting. 
+
+---
+
+class: inverse, center, middle 
+
+# Nonstationary Models: An Introduction 
+
+---
+
+# Nonstationary Models, Part 1
+
+- To this point, we have focused on stationary time series models and studied series that are **covariance stationary**. 
+- In this lecture, we shift the focus to **nonstationary time series models**. 
+- Many time series encountered in practice are nonstationary due to trends or seasonal effects 
+## Good News! 
+
+- Fortunately, many of the nonstationary series that we encounter can be convered to a covariance stationary series using simple *differencing*, especially using first-order differenci ng. 
+- This modeling strategy leads to the *famous* **Box-Jenkins Approach** to drive the *Auto Regressive Integrated Moving Average*, or **ARIMA** models. 
+
+---
+
+# Nonstationary Models, Part 2
+
+- The term **integrated** comes from the fact that the differenced series need to be aggregated to recover the original series. If this is the case, then the underlying process is called (i.e. is defined to be) an *integrated* series. 
+- The *ARIMA* process can accomodate seasonal terms, which gives rise to the seasonal ARIMA (**SARIMA**) model. 
+- Not all nonstationarity can be overcome with differencing. 
+  - Volatility clustering, which occurs in many financial and macroeconomic time series generates *conditional heteroskedasticty*. 
+  - Data of this form is better modeled using an *Autoregression Conditional Heteroskedastic* (ARCH) or *Generalized ARCH* (GARCH) model.
+  
+--- 
+
+# Nonstationary Models, Part 3
+
+- Without seasonal effects, first differencing can remove both *stochastic* and *deterministic* trends. 
+  - Stochastic trends are processes like random walks
+  - Deterministic trends are process like a linear trend. 
+  
+- Recall that a random walk taks the following form: 
+
+`$$y_{t} = y_{t-1} + \omega_{t}$$` 
+
+- If data follows a random walk process (with the form written above), then taking a first difference transforms the model to the following form: 
+
+`$$\begin{aligned} 
+\bigtriangledown y_{t} &amp;= y_{t} - y_{t-1} \\ 
+  &amp;= \left(y_{t-1} + \omega_{t}\right) - \left(y_{t-1} - \omega_{t-1}\right) \\ 
+  &amp;= \omega_{t} - \omega_{t-1}
+\end{aligned}$$`
+
+- Because there is no covariance between `\(\omega_{t}\)` and `\(\omega_{t-1}\)` this difference is itself a white noise process, with mean zero. And, so the first differencing has produced a mean-zero, stationary white-noise series. 
+
+---
+
+# Nonstationary Model, Part 4 
+
+What happens if one applies a first-differencing approach to a linear trend with white-noise errors? *They get a `\(MA(1)\)` process! 
+
+`$$y_{t} = a + bt + \omega_{t}$$` 
+
+Can be transformed into the following series using first differencing: 
+
+`$$\begin{aligned} 
+\bigdowntriangle y_{t} &amp;= y_{t} - y_{t-1} \\ 
+  &amp;= \left(a + bt + \omega_{t}\right) - \left(a + bt + \omega_{t-1} \right) \\ 
+  &amp;= b + \left(\omega_{t} - \omega_{t-1}\right)
+\end{aligned}$$`
+
+- Another transformation that is possible is to directly subtract the trend (if known) from the series. This will also produce a white noise process, and might be more sensible. 
+
+`$$\begin{aligned} 
+y_{t} &amp;= a + bt + \omega_{t} \\ 
+y_{t} - \text{ known trend} &amp;= y_{t} - (a + bt) \\ 
+  &amp;= a + bt + \omega_{t} - (a + bt) \\ 
+  &amp;= \omega_{t}
+\end{aligned}$$`
+
+## In Practice 
+
+- Do not blindly apply first differencing methods, or higher-order differencing methods. 
+- Investigate and understand the series so that you can ask **and answer** the question, "What is the meaning of this series, and what is the meaning of this transformed series?" 
+
+---
+
+class: inverse, center, middle 
+
+# Random Walk Processes 
+
+---
+
+# Random Walk Processess: An Introduction 
+
+- Random walks are nothing more than `\(AR(1)\)` processes where the `\(AR\)` parameter is exactly `\(1\)`. 
+
+`$$\begin{aligned} 
+y_{t} &amp;= \phi_{1}y_{t-1} + \epsilon_{t} \\ 
+\epsilon_{t} &amp; \sim WN(0, \sigma^{2})
+\end{aligned}$$`
+
+## Random walks are important processes 
+- They are the basis of many series in continuous-time finance
+- They are the basis of many series is atmospheric data 
+
+## Random walks are just that...random! 
+
+- Note that random walks do not revert back to any constant level. 
+- These are not *mean-reversion* processes. 
+- Instead, they wander up and down, without a tendency to settle at any particular level. 
+- Although they are ill-behaved (i.e. not covariance stationary), the first difference of a random walk **is** stationary white noise.
+
+---
+
+# A simulated white noise series 
+
+`$$\begin{aligned} 
+y_{t} &amp;= \phi_{1}y_{t-1} + \epsilon_{t} \\ 
+\epsilon_{t} &amp; \sim WN(0, \sigma^{2})
+\end{aligned}$$`
+
+
+```r
+random_walk &lt;- function(time_periods=100, variance=1){
+  rw &lt;- rep(NA, time_periods)
+  rw[1] &lt;- 0
+  for(i in 2:time_periods) {rw[i] &lt;- rw[i-1] + rnorm(1, 0, variance)}
+  return(rw)
+}
+
+ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))
+```
+
+![](unit_09_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+---
+
+# Random Walk with Drive Processes 
+
+- Random walks with drift are essentially models of trend
+- On average, the process grows by the drift in each period. 
+
+`$$\begin{aligned} 
+y_{t} &amp;= \delta + \phi_{1}y_{t-1} + \epsilon_{t} \\ 
+\epsilon_{t} &amp; \sim WN(0, \sigma^{2})
+\end{aligned}$$`
+
+
+```r
+random_walk_with_drift &lt;- function(time_periods=100, drift=0.5, variance=1){
+  rwd &lt;- rep(NA, time_periods)
+  rwd[1] &lt;- 0
+  for(i in 2:time_periods) {rwd[i] &lt;- drift + rwd[i-1] + rnorm(1, 0, variance)}
+  return(rwd)
+}
+
+ggplot() + geom_line(aes(x=1:100, y=random_walk_with_drift(100)))
+```
+
+![](unit_09_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+---
+
+# Random Walk With and Without Drift 
+
+![](unit_09_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+---
+
+# Random Walk Processess 
+
+- The drift parameter plays the same role as the slope parameter in deterministic linear trend models 
+- On average, processes "grow" by the drift in each period 
+- The random walk with drift is also called model of **stochastic trend** because its trend is driven by stochastic shocks
+- The most distinctive feature of random walk processes is that shocks affect the series **permanently**. If a shock lowers the value of the series, the random walk has no tendency to rise again. It stays lower permanently, until a new shock comes. 
+- (What does this mean for a stock portfolio?) 
+- A `\(k-\)`unit shock moves the expected future path of the series by one-unit. 
+
+---
+
+class: inverse, center, middle
+
+# Introduction to ARIMA Processess 
+
+---
+
+# The Expectation of Random Walk Processes 
+
+- Suppose that a process starts at some time `\(0\)` with some value `\(y_{0}\)`. Then, we can derive properties of the series
+
+`$$y_{t} = y_{0} + \sum_{i=1}^{t} \epsilon_{i}$$`
+
+`$$\begin{aligned} 
+E[y_{t}] &amp;= E\left[y_{0} + \sum_{i=1}^{t} \epsilon_{i}\right] \\ 
+  &amp;= E[y_{0}] + E\left[\sum_{i=1}^{t}\epsilon_{i}\right] \\ 
+  &amp;= E[y_{0}] + \sum_{i=1}^{t}E[\epsilon_{i}] \\ 
+  &amp;= E[y_{0}] + \sum_{i=1}^{t}0 \\
+  &amp;= E[y_{0}] \\ 
+\end{aligned}$$`
+
+---
+
+# The Variance of Random Walk Process 
+
+With the same series, we can drive the variance as the following 
+
+`$$\begin{aligned} 
+V[y_{t}] &amp;= V\left[y_{0} + \sum_{i=1}^{t} \epsilon_{i}\right] \\ 
+  &amp;= V\left[\sum_{i=1}^{t}\epsilon_{t} \right] \\ 
+  &amp;= \sum_{i=1}^{t} V[\epsilon_{i}] \quad \text{Because 0 covariance} \\
+  &amp;= \sum_{i=1}^{t} \sigma^{2} \\
+  &amp; = t\sigma^{2}
+\end{aligned}$$`
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

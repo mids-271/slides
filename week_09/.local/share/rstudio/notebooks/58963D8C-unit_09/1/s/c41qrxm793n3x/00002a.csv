@@ -1,0 +1,2 @@
+"0","forecast(model_ma_5, h=6) %>% "
+"0","  autoplot(data_gbp_nzd)"

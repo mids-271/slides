@@ -1,0 +1,4 @@
+"0","plot_ts   <- data_gbp_nzd %>% autoplot(xrate)  "
+"0","plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram(bins=10)"
+"0","plot_acf  <- data_gbp_nzd %>% ACF(y=xrate) %>% autoplot()"
+"0","plot_pacf <- data_gbp_nzd %>% PACF(y=xrate) %>% autoplot() "

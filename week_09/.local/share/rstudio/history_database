@@ -1,0 +1,1875 @@
+1657661797139:library(latex2exp)
+1657661827358:data_gbp_nzd <- read.csv(file = './data/xrate.txt')
+1657661832827:data_gbp_nzd
+1657661855045:glimpse(data_gbp_nzd)
+1657661864220:library(latex2exp)
+1657661864259:library(tidyverse)
+1657661865661:library(ggplot2)
+1657661865670:library(patchwork)
+1657661865707:library(data.table)
+1657661865816:library(magrittr)
+1657661865842:library(patchwork)
+1657661865855:library(tsibble)
+1657661866082:library(fpp3)
+1657661866564:library(feasts)
+1657661866577:library(fable)
+1657661866588:library(astsa)
+1657661866625:library(lubridate)
+1657661866639:library(lmtest)
+1657661866768:berkeley_blue   <- '#003262'
+1657661867245:california_gold <- '#FDB515'
+1657661867280:options(htmltools.dir.version = FALSE)
+1657661867299:options(digits = 4)
+1657661867314:knitr::opts_chunk$set(echo = TRUE, dpi = 300, fig.height = 3)
+1657661867350:theme_set(theme_minimal())
+1657661870844:data_gbp_nzd <- read.csv(file = './data/xrate.txt')
+1657661870857:glimpse(data_gbp_nzd)
+1657661969406:plot_tz_nzd <- gbp_ndz %>% autoplot()
+1657661977029:plot_tz_nzd <- data_gbp_ndz %>% autoplot()
+1657661983815:plot_tz_nzd <- data_gbp_nzd %>% autoplot()
+1657661996729:data_gbp_nzd <- read.csv(file = './data/xrate.txt') %>%
+1657661996738:as_tsibble()
+1657662018112:data_gbp_nzd <- read.csv(file = './data/xrate.txt') %>%
+1657662018120:as_tsibble(index=NULL)
+1657662031108:data_gbp_nzd <- read.csv(file = './data/xrate.txt') %>%
+1657662031116:as_tsibble(index=1:39)
+1657662037029:read.csv(file = './data/xrate.txt')
+1657662061338:data_gbp_nzd <- read.csv(file = './data/xrate.txt') %>%
+1657662061347:mutate(index = 1:39) %>%
+1657662061356:as_tsibble(index=index)
+1657662061389:glimpse(data_gbp_nzd)
+1657662066900:plot_tz_nzd <- data_gbp_nzd %>% autoplot()
+1657662072160:plot_tz_nzd <- data_gbp_nzd %>% autoplot(xrate)
+1657662094742:plot_hist   <- data_gbp_nzd %>% ggplot(aes(x=xrate) + geom_histogram()
+1657662182926:(plot_ts | plot_hist) /
+1657662182942:(plot_acf | plot_pacf)
+1657662198066:plot_ts   <- data_gbp_nzd %>% autoplot(xrate)
+1657662198096:plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram()
+1657662198125:plot_acf  <- data_gbp_nzd %>% ACF(y=xrate) + autoplot()
+1657662212356:data_gbp_nzd %>% ACF(y=xrate)
+1657662218588:data_gbp_nzd %>% ACF(y=xrate) + autoplot()
+1657662223450:data_gbp_nzd %>% PACF(y=xrate) + autoplot()
+1657662239643:data_gbp_nzd
+1657662249708:data_gbp_nzd %>% ACF(y=xrate)
+1657662259891:data_gbp_nzd %>% ACF(y=xrate) + autoplot(.vars=acf)
+1657662337345:library(tsibble)
+1657662337942:library(fpp3)
+1657662338542:library(feasts)
+1657662339150:library(fable)
+1657662339870:library(astsa)
+1657662350185:plot_ts   <- data_gbp_nzd %>% autoplot(xrate)
+1657662350213:plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram()
+1657662352915:plot_ts
+1657662357391:plot_hist
+1657662365028:plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram(bins=10)
+1657662367629:plot_hist
+1657662375305:data_gbp_nzd
+1657662380446:data_gbp_nzd %>% ACF(y=xrate)
+1657662402727:?autoplot
+1657662451167:data_gbp_nzd %>% ACF(xrate) + autoplot(.vars=acf)
+1657662469200:data_gbp_nzd %>% ACF(y=xrate) %>% autoplot()
+1657662475462:plot_ts   <- data_gbp_nzd %>% autoplot(xrate)
+1657662475491:plot_hist <- data_gbp_nzd %>% ggplot(aes(x=xrate)) + geom_histogram(bins=10)
+1657662475534:plot_acf  <- data_gbp_nzd %>% ACF(y=xrate) %>% autoplot()
+1657662475608:plot_pacf <- data_gbp_nzd %>% PACF(y=xrate) %>% autoplot()
+1657662477330:(plot_ts | plot_hist) /
+1657662477339:(plot_acf | plot_pacf)
+1657662664917:?arima
+1657662742556:model_ma_5 <- arima(
+1657662742565:x        = data_gbp_nzd$xrate,
+1657662742575:order    = c(0, 0, 5),
+1657662742583:seasonal = c(0, 0, 0)
+1657662742592:)
+1657662742661:summary(model_ma_5)
+1657662746635:model_ma_5 <- arima(
+1657662746644:x        = data_gbp_nzd$xrate,
+1657662746652:order    = c(0, 0, 5),
+1657662746659:seasonal = c(0, 0, 0)
+1657662746667:)
+1657662746730:model_ma_5
+1657662771512:?MODEL
+1657662774838:??MODEL
+1657662879966:model_ma_5 <- data_gbp_nzd %>%
+1657662879973:model(ARIMA(formula = c(0, 0, 5)))
+1657662884041:model_ma_5
+1657662892030:model_ma_5 %>% report
+1657662901118:model_ma_5 %>% report()
+1657662911162:?ARIMA
+1657662981125:model_ma_5 <- data_gbp_nzd %>%
+1657662981135:model(ARIMA(formula = xrate ~ pdq(0, 0, 5) + PDQ(0, 0, 0)))
+1657662993604:model_ma_5 <- data_gbp_nzd %>%
+1657662993611:model(ARIMA(formula = xrate ~ 1 + pdq(0, 0, 5) + PDQ(0, 0, 0)))
+1657663002253:model_ma_5 %>% report()
+1657663007509:model_ma_5 <- data_gbp_nzd %>%
+1657663007517:model(ARIMA(formula = xrate ~ 0 + pdq(0, 0, 5) + PDQ(0, 0, 0)))
+1657663008390:model_ma_5 %>% report()
+1657663047703:model_ma_5 <- data_gbp_nzd %>%
+1657663047713:model(ARIMA(formula = xrate ~ 1 + pdq(0, 0, 5) + PDQ(0, 0, 0)))
+1657663048219:model_ma_5 %>% report()
+1657663153874:model_ma_5 %>% residuals()
+1657663168934:model_ma_5 %>% augment()
+1657663197728:model_ma_5 %>% augment() %>%
+1657663197734:autoplot(.vars=.resid)
+1657663253078:model_ma_5 %>% augment() %>%
+1657663253085:ggplot(aes(x=.resid)) +
+1657663253091:geom_histogram(bins=10)
+1657663343556:data_gbp_nzd_augmented <- model_ma_5 %>% augment()
+1657663343653:plot_residudals_ts  <- data_gbp_nzd_augmented %>%
+1657663343664:autoplot(.vars=.resid)
+1657663343728:plot_residuals_hist <- data_gbp_nzd_augmented %>%
+1657663343739:ggplot(aes(x=.resid)) +
+1657663343751:geom_histogram(bins=10)
+1657663343807:plot_residuals_acf <- data_gbp_nzd_augmented %>%
+1657663343819:ACF(y=.resid) %>%
+1657663343830:autoplot()
+1657663348077:plot_residuals_acf
+1657663396939:(plot_residudals_ts | plot_residudals_hist) /
+1657663396948:(plot_residudals_acf | plot_residudals_pacf)
+1657663415978:(plot_residuals_ts | plot_residuals_hist) /
+1657663415986:(plot_residuals_acf | plot_residuals_pacf)
+1657663419062:data_gbp_nzd_augmented <- model_ma_5 %>% augment()
+1657663419128:plot_residuals_ts  <- data_gbp_nzd_augmented %>%
+1657663419139:autoplot(.vars=.resid)
+1657663419184:plot_residuals_hist <- data_gbp_nzd_augmented %>%
+1657663419195:ggplot(aes(x=.resid)) +
+1657663419204:geom_histogram(bins=10)
+1657663419254:plot_residuals_acf <- data_gbp_nzd_augmented %>%
+1657663419266:ACF(y=.resid) %>%
+1657663419275:autoplot()
+1657663419365:plot_residuals_pacf <- data_gbp_nzd_augmented %>%
+1657663419376:PACF(y=.resid) %>%
+1657663419387:autoplot()
+1657663421098:(plot_residuals_ts | plot_residuals_hist) /
+1657663421106:(plot_residuals_acf | plot_residuals_pacf)
+1657663496542:data_gbp_nzd_augmented %>%
+1657663496551:ljung_box(.resid)
+1657663502198:data_gbp_nzd_augmented %$%
+1657663502206:ljung_box(.resid)
+1657663599563:data_gbp_nzd_augmented %>%
+1657663599572:ggplot() +
+1657663599581:geom_line(aes(x=index, y=xrate))
+1657663640371:data_gbp_nzd_augmented %>%
+1657663640380:ggplot() +
+1657663640387:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663640396:geom_line(aes(x=index, y=.fitted), color = california_gold)
+1657663665641:data_gbp_nzd_augmented %>%
+1657663665651:ggplot() +
+1657663665659:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663665668:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663665676:geom_line(aes(x=index, y=.resid), color = 'brickred')
+1657663670283:data_gbp_nzd_augmented %>%
+1657663670293:ggplot() +
+1657663670301:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663670308:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663670315:geom_line(aes(x=index, y=.resid), color = 'red')
+1657663782314:data_gbp_nzd_augmented %>%
+1657663782324:ggplot() +
+1657663782332:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663782341:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663782351:geom_line(aes(x=index, y=.resid*10), color = 'red')
+1657663785711:data_gbp_nzd_augmented %>%
+1657663785720:ggplot() +
+1657663785728:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663785735:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663785742:geom_line(aes(x=index, y=.resid*12), color = 'red')
+1657663789530:data_gbp_nzd_augmented %>%
+1657663789539:ggplot() +
+1657663789547:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663789555:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663789563:geom_line(aes(x=index, y=.resid*20), color = 'red')
+1657663819185:data_gbp_nzd_augmented %>%
+1657663819193:ggplot() +
+1657663819200:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663819207:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663819214:geom_line(aes(x=index, y=.resid*20), color = 'red') +
+1657663819221:scale_y_continuous(
+1657663819229:sec.axis = ~.*20
+1657663819236:)
+1657663849598:?sec_axis
+1657663867761:data_gbp_nzd_augmented %>%
+1657663867769:ggplot() +
+1657663867776:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663867785:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663867792:geom_line(aes(x=index, y=.resid*20), color = 'red') +
+1657663867799:scale_y_continuous(sec.axis = sec_axis(~.*20, name = 'Residuals'))
+1657663880667:data_gbp_nzd_augmented %>%
+1657663880676:ggplot() +
+1657663880684:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663880690:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663880697:geom_line(aes(x=index, y=.resid*10), color = 'red') +
+1657663880704:scale_y_continuous(sec.axis = sec_axis(~.*10, name = 'Residuals'))
+1657663886326:data_gbp_nzd_augmented %>%
+1657663886335:ggplot() +
+1657663886342:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663886349:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663886355:geom_line(aes(x=index, y=.resid*/10), color = 'red') +
+1657663893547:data_gbp_nzd_augmented %>%
+1657663893555:ggplot() +
+1657663893562:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663893568:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663893575:geom_line(aes(x=index, y=.resid*20), color = 'red') +
+1657663893581:scale_y_continuous(sec.axis = sec_axis(~./10, name = 'Residuals'))
+1657663898374:data_gbp_nzd_augmented %>%
+1657663898383:ggplot() +
+1657663898390:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663898397:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663898411:geom_line(aes(x=index, y=.resid*20), color = 'red') +
+1657663898418:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals'))
+1657663920375:data_gbp_nzd_augmented %>%
+1657663920384:ggplot() +
+1657663920393:geom_line(aes(x=index, y=xrate), color = berkeley_blue) +
+1657663920401:geom_line(aes(x=index, y=.fitted), color = california_gold) +
+1657663920407:geom_line(aes(x=index, y=.resid*20), color = 'darkred') +
+1657663920415:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals'))
+1657664108256:data_gbp_nzd_augmented %>%
+1657664108266:ggplot() +
+1657664108274:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664108284:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664108299:geom_line(aes(x=index, y=.resid*20, color = 'residuals')) +
+1657664108308:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals')) +
+1657664108315:scale_color_manual(values = c('values'=berkeley_blue, 'fitted'=california_gold, 'residuals'='darkred'))
+1657664161267:data_gbp_nzd_augmented %>%
+1657664161276:ggplot() +
+1657664161284:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664161291:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664161299:geom_line(aes(x=index, y=.resid*20, color = 'residuals')) +
+1657664161306:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals')) +
+1657664161313:scale_color_manual(
+1657664161320:name = 'Series',
+1657664161327:values = c(
+1657664161334:'values' = berkeley_blue,
+1657664161342:'fitted' = california_gold,
+1657664161349:'residuals' = 'darkred')
+1657664161356:)
+1657664189531:data_gbp_nzd_augmented %>%
+1657664189541:ggplot() +
+1657664189549:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664189557:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664189564:geom_line(aes(x=index, y=.resid*10, color = 'residuals')) +
+1657664189571:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals')) +
+1657664189578:scale_color_manual(
+1657664189585:name = 'Series',
+1657664189594:values = c(
+1657664189600:'values' = berkeley_blue,
+1657664189606:'fitted' = california_gold,
+1657664189612:'residuals' = 'darkred')
+1657664189619:)
+1657664199637:data_gbp_nzd_augmented %>%
+1657664199646:ggplot() +
+1657664199654:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664199662:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664199669:geom_line(aes(x=index, y=.resid*20, color = 'residuals')) +
+1657664199675:scale_y_continuous(sec.axis = sec_axis(~./20, name = 'Residuals')) +
+1657664199683:scale_color_manual(
+1657664199691:name = 'Series',
+1657664199698:values = c(
+1657664199705:'values' = berkeley_blue,
+1657664199712:'fitted' = california_gold,
+1657664199719:'residuals' = 'darkred')
+1657664199726:)
+1657664248388:data_gbp_nzd_augmented %>%
+1657664248397:ggplot() +
+1657664248404:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664248411:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664248419:geom_line(aes(x=index, y=.resid+3, color = 'residuals')) +
+1657664248427:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657664248434:scale_color_manual(
+1657664248441:name = 'Series',
+1657664248448:values = c(
+1657664248455:'values' = berkeley_blue,
+1657664248462:'fitted' = california_gold,
+1657664248470:'residuals' = 'darkred')
+1657664248476:)
+1657664273925:data_gbp_nzd_augmented %>%
+1657664273934:ggplot() +
+1657664273942:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664273950:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664273957:geom_line(aes(x=index, y=.resid+3,   color = 'residuals', type = 2)) +
+1657664273966:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657664273975:scale_color_manual(
+1657664273986:name = 'Series',
+1657664273994:values = c(
+1657664274001:'values' = berkeley_blue,
+1657664274008:'fitted' = california_gold,
+1657664274014:'residuals' = 'darkred')
+1657664274021:)
+1657664281626:data_gbp_nzd_augmented %>%
+1657664281615:ggplot() +
+1657664281624:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664281633:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664281640:geom_line(aes(x=index, y=.resid+3,   color = 'residuals', line = 2)) +
+1657664281649:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657664281657:scale_color_manual(
+1657664281665:name = 'Series',
+1657664281673:values = c(
+1657664281681:'values' = berkeley_blue,
+1657664281688:'fitted' = california_gold,
+1657664281697:'residuals' = 'darkred')
+1657664281706:)
+1657664321974:data_gbp_nzd_augmented %>%
+1657664321982:ggplot() +
+1657664321989:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664321997:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664322004:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657664322010:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657664322017:scale_color_manual(
+1657664322023:name = 'Series',
+1657664322030:values = c(
+1657664322037:'values' = berkeley_blue,
+1657664322044:'fitted' = california_gold,
+1657664322051:'residuals' = 'darkred')
+1657664322058:)
+1657664360297:data_gbp_nzd_augmented %>%
+1657664360307:ggplot() +
+1657664360318:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657664360326:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657664360333:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657664360341:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657664360348:scale_color_manual(
+1657664360355:name = 'Series',
+1657664360362:values = c(
+1657664360368:'values' = berkeley_blue,
+1657664360374:'fitted' = california_gold,
+1657664360381:'residuals' = 'darkred')) +
+1657664360387:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657664817393:?forecast
+1657664845566:forecast(data_gbp_nzd_augmented, h=6)
+1657664889571:forecast(model_ma_5, h=6)
+1657664898081:forecast(model_ma_5, h=6) %>%
+1657664898089:autoplot()
+1657664930396:forecast(model_ma_5, h=6) %>%
+1657664930406:autoplot(xrate)
+1657664958961:forecast(model_ma_5, h=6) %>%
+1657664958970:autoplot(model_ma_5)
+1657664981600:forecast(model_ma_5, h=6) %>%
+1657664981609:autoplot(data_gbp_nzd)
+1657665021474:forecast(model_ma_5, h=6)
+1657665066368:plot_actual_fitted_residuals <- data_gbp_nzd_augmented %>%
+1657665066377:ggplot() +
+1657665066385:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657665066391:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657665066399:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657665066405:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657665066411:scale_color_manual(
+1657665066416:name = 'Series',
+1657665066422:values = c(
+1657665066428:'values' = berkeley_blue,
+1657665066434:'fitted' = california_gold,
+1657665066440:'residuals' = 'darkred')) +
+1657665066446:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657665073517:plot_actual_fitted_residuals
+1657665121967:plot_actual_fitted_residuals +
+1657665121974:autoplot(forecast(model_ma_5, h=6))
+1657665183376:forecast(model_ma_5, h=6) %>%
+1657665183386:autoplot(data_gbp_nzd)
+1657665230285:forecast(model_ma_5, h=6) %>%
+1657665230293:autoplot(data_gbp_nzd) +
+1657665230300:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657665230309:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657665230315:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657665230321:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657665230328:scale_color_manual(
+1657665230335:name = 'Series',
+1657665230341:values = c(
+1657665230347:'values' = berkeley_blue,
+1657665230353:'fitted' = california_gold,
+1657665230358:'residuals' = 'darkred')) +
+1657665230364:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657665240629:forecast(model_ma_5, h=6) %>%
+1657665240636:autoplot(data_gbp_nzd)
+1657665250850:forecast(model_ma_5, h=6) %>%
+1657665250858:autoplot(data_gbp_nzd) +
+1657665250867:data_gbp_nzd_augmented %>%
+1657665250875:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657665250884:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657665250891:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657665250898:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657665250905:scale_color_manual(
+1657665250911:name = 'Series',
+1657665250917:values = c(
+1657665250923:'values' = berkeley_blue,
+1657665250930:'fitted' = california_gold,
+1657665250935:'residuals' = 'darkred')) +
+1657665250941:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657665282971:forecast(model_ma_5, h=6) %>%
+1657665282979:autoplot(data_gbp_nzd) +
+1657665282986:data_gbp_nzd_augmented %>%
+1657665282993:ggplot() +
+1657665282999:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657665283006:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657665283013:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657665283021:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657665283028:scale_color_manual(
+1657665283034:name = 'Series',
+1657665283039:values = c(
+1657665283045:'values' = berkeley_blue,
+1657665283051:'fitted' = california_gold,
+1657665283057:'residuals' = 'darkred')) +
+1657665283064:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657665315472:augment(model_ma_5)
+1657665327760:plot_actual_fitted_residuals +
+1657665327767:autoplot(forecast(model_ma_5,))
+1657665361875:forecast(model_ma_5) +
+1657665361884:autoplot(data_gbp_nzd)
+1657665369627:forecast(model_ma_5) %>%
+1657665369636:autoplot(data_gbp_nzd)
+1657665378000:forecast(model_ma_5, h=6) %>%
+1657665378008:autoplot(data_gbp_nzd)
+1657665735307:model_backtesting <- data_gbp_nzd %>%
+1657665735319:filter(index <= 33) %>%
+1657665735328:model(ARIMA(xrate ~ 1 + pdq(0,0,5), PDQ(0,0,0)))
+1657665792885:model_backtesting <- data_gbp_nzd %>%
+1657665792892:filter(index <= 33) %>%
+1657665792899:model(ARIMA(formula = xrate ~ 1 + pdq(0,0,5) + PDQ(0,0,0)))
+1657665799145:model_backtesting
+1657665806253:data_gbp_nzd
+1657665816672:data_gbp_nzd %>%
+1657665816679:filter(index <= 33)
+1657665829659:model_backtesting %>% report()
+1657665859790:forecast(model_backtesting, h=12)
+1657665887052:forecast(model_backtesting, h=12) %>%
+1657665887059:select(index, .mean)
+1657665894136:forecast(model_backtesting, h=12)
+1657665927618:forecast(model_backtesting, h=12) %>%
+1657665927624:select(index)
+1657665936634:forecast(model_backtesting, h=12) %>%
+1657665936641:select('index')
+1657665942644:forecast(model_backtesting, h=12)
+1657666024747:augment(forecast(model_backtesting, h=12))
+1657666034179:forecast(model_backtesting, h=12)
+1657666039572:forecast(model_backtesting, h=12) %>%
+1657666039581:augment()
+1657666236583:model_backtesting %>%
+1657666236591:forecast(h=12) %>%
+1657666236598:autoplot()
+1657666251718:model_backtesting %>%
+1657666251729:forecast(h=12) %>%
+1657666251738:autoplot(data_gbp_nzd)
+1657666362218:augment(model_backtesting)
+1657666383977:model_backtesting <- data_gbp_nzd %>%
+1657666383986:filter(index <= 33) %>%
+1657666383994:model(ARIMA(formula = xrate ~ 1 + pdq(0,0,5) + PDQ(0,0,0)))
+1657666384165:model_backtesting %>%
+1657666384174:forecast(h=12) %>%
+1657666384183:autoplot(data_g)
+1657666386604:model_backtesting %>%
+1657666386615:forecast(h=12) %>%
+1657666386625:augment(model_backtesting) %>%
+1657666386635:autoplot(.vars = .fitted)
+1657666396143:augment(model_backtesting)
+1657666451686:augment(model_backtesting) %>%
+1657666451693:ggplot() +
+1657666451700:geom_line(aes(x=index, y=xrate)) +
+1657666451707:geom_line(aes(x=index, y=.fitted))
+1657666470698:model_backtesting %>%
+1657666470705:forecast(h=12)
+1657666504856:model_backtesting %>%
+1657666504863:forecast(h=12) %>%
+1657666504870:select(xrate)
+1657666516994:model_backtesting %>%
+1657666517001:forecast(h=12) %>%
+1657666517008:select(xrate) %>%
+1657666517014:pivot_longer()
+1657666525049:model_backtesting %>%
+1657666525056:forecast(h=12) %>%
+1657666525063:select(xrate) %>%
+1657666525071:pivot_longer(cols = xrate)
+1657666566617:?aes
+1657666617116:model_backtesting %>%
+1657666617124:forecast(h=12)
+1657666626187:model_backtesting %>%
+1657666626195:forecast(h=12)
+1657666642788:model_backtesting %>%
+1657666642795:forecast(h=12) %>%
+1657666642801:select(index, .mean)
+1657666656529:model_backtesting %>%
+1657666656537:forecast(h=12)
+1657666667106:?fable
+1657666905971:model_forecasts <- model_backtesting %>%
+1657666905980:forecast(h=12)
+1657666909921:model_forecasts
+1657666922382:model_forecasts <- model_backtesting %>%
+1657666922390:forecast(h=12) %>%
+1657666922397:as_tsibble()
+1657666926210:model_forecasts
+1657666943269:model_backtesting %>%
+1657666943276:forecast(h=12) %>%
+1657666943282:as_tsibble() %>%
+1657666943289:select(index)
+1657666948455:model_backtesting %>%
+1657666948462:forecast(h=12) %>%
+1657666948469:as_tsibble() %>%
+1657666948476:select(index, .mean)
+1657667005927:augment(model_ma_5)
+1657667055804:augment(model_backtesting)
+1657667074360:augment(model_backtesting) %>%
+1657667074368:rename(.mean = .fitted)
+1657667085205:augment(model_backtesting) %>%
+1657667085212:rename(.mean = .fitted) %>%
+1657667085218:selecet(index, .mean)
+1657667091056:augment(model_backtesting) %>%
+1657667091063:rename(.mean = .fitted) %>%
+1657667091070:select(index, .mean)
+1657667113117:augment(model_backtesting) %>%
+1657667113125:rename(.mean = .fitted) %>%
+1657667113131:select(index, .mean) %>%
+1657667113138:left_join(
+1657667113145:model_backtesting %>%
+1657667113151:forecast(h=12) %>%
+1657667113158:as_tsibble() %>%
+1657667113164:select(index, .mean)
+1657667113170:)
+1657667138901:foo <- augment(model_backtesting) %>%
+1657667138912:rename(.mean = .fitted) %>%
+1657667138924:select(index, .mean) %>%
+1657667138933:left_join(
+1657667138945:model_backtesting %>%
+1657667138952:forecast(h=12) %>%
+1657667138959:as_tsibble() %>%
+1657667138966:select(index, .mean)
+1657667138973:)
+1657667141956:foo
+1657667167096:augment(model_backtesting)
+1657667253944:coalesce()
+1657667257105:?coalesce
+1657667314108:augment(model_backtesting) %>%
+1657667314115:rename(.mean = .fitted) %>%
+1657667314121:mutate(source = 'data')
+1657667349941:augment(model_backtesting) %>%
+1657667349953:rename(.mean = .fitted) %>%
+1657667349961:mutate(source = 'data')
+1657667350097:select(index, xrate, .mean, source)
+1657667365228:augment(model_backtesting) %>%
+1657667365237:rename(.mean = .fitted) %>%
+1657667365244:mutate(source = 'data') %>%
+1657667365251:select(index, xrate, .mean, source)
+1657667399455:?outer_join
+1657667403225:?inner_join
+1657667420127:?full_join
+1657667453554:model_backtesting %>%
+1657667453561:forecast(h=12) %>%
+1657667453568:as_tsibble()
+1657667481184:model_backtesting %>%
+1657667481190:forecast(h=12) %>%
+1657667481198:as_tsibble() %>%
+1657667481204:mutate(source = 'forecast')
+1657667512831:foo <- augment(model_backtesting) %>%
+1657667512897:rename(.mean = .fitted) %>%
+1657667512957:mutate(source = 'data') %>%
+1657667512966:select(index, xrate, .mean, source) %>%
+1657667512975:full_join(
+1657667512983:model_backtesting %>%
+1657667512990:forecast(h=12) %>%
+1657667512997:as_tsibble() %>%
+1657667513004:mutate(source = 'forecast') %>%
+1657667513011:select(index, .mean, source),
+1657667513018:by = 'index'
+1657667513025:)
+1657667516504:foo
+1657667593739:rbind(
+1657667593747:augment(model_backtesting) %>%
+1657667593753:rename(.mean = .fitted) %>%
+1657667593762:mutate(source = 'data') %>%
+1657667593771:select(index, xrate, .mean, source),
+1657667593780:model_backtesting %>%
+1657667593787:forecast(h=12) %>%
+1657667593793:as_tsibble() %>%
+1657667593799:mutate(source = 'forecast') %>%
+1657667593805:select(index, .mean, source)
+1657667593811:)
+1657667645603:rbind(
+1657667645611:augment(model_backtesting) %>%
+1657667645618:rename(.mean = .fitted) %>%
+1657667645624:mutate(source = 'data') %>%
+1657667645630:select(index, xrate, .mean, source) %>%
+1657667645636:as_tibble(),
+1657667645642:model_backtesting %>%
+1657667645648:forecast(h=12) %>%
+1657667645654:as_tsibble() %>%
+1657667645660:mutate(source = 'forecast') %>%
+1657667645666:select(index, .mean, source) %>%
+1657667645672:as_tibble()
+1657667645678:)
+1657667675651:rbind(
+1657667675665:augment(model_backtesting) %>%
+1657667675676:rename(.mean = .fitted) %>%
+1657667675684:mutate(source = 'data') %>%
+1657667675692:select(index, xrate, .mean, source) %>%
+1657667675700:as_tibble(),
+1657667675709:model_backtesting %>%
+1657667675716:forecast(h=12) %>%
+1657667675723:as_tsibble() %>%
+1657667675730:mutate(
+1657667675737:source = 'forecast',
+1657667675743:xrate = NA) %>%
+1657667675750:select(index, xrate, .mean, source) %>%
+1657667675759:as_tibble()
+1657667675766:)
+1657667760211:data_gbp_nzd
+1657667864269:data_gbp_nzd %>%
+1657667864276:mutate(
+1657667864284:source = 'original data',
+1657667864291:.mean = NA
+1657667864298:)
+1657667883561:augment(model_backtesting) %>%
+1657667883567:rename(.mean = .fitted) %>%
+1657667883574:mutate(source = 'backtesting model') %>%
+1657667883581:select(index, xrate, .mean, source) %>%
+1657667883587:as_tibble()
+1657667912282:data_gbp_nzd %>%
+1657667912290:mutate(
+1657667912298:source = 'original data',
+1657667912304:.mean = NA) %>%
+1657667912310:select(index, xrate, .mean, source)
+1657667962917:foo <- rbind(
+1657667962928:## backtesting data set
+1657667962938:augment(model_backtesting) %>%
+1657667962946:rename(.mean = .fitted) %>%
+1657667962953:mutate(source = 'backtesting model') %>%
+1657667962960:select(index, xrate, .mean, source) %>%
+1657667962968:as_tibble(),
+1657667962975:## original data set
+1657667962982:data_gbp_nzd %>%
+1657667962989:mutate(
+1657667962996:source = 'original data',
+1657667963003:.mean = NA) %>%
+1657667963009:select(index, xrate, .mean, source),
+1657667963015:## forecasting dataset
+1657667963021:model_backtesting %>%
+1657667963027:forecast(h=12) %>%
+1657667963034:as_tsibble() %>%
+1657667963040:mutate(
+1657667963046:source = 'forecast',
+1657667963051:xrate = NA) %>%
+1657667963056:select(index, xrate, .mean, source) %>%
+1657667963062:as_tibble()
+1657667963067:)
+1657667967164:foo
+1657668022742:foo %>%
+1657668022750:ggplot() +
+1657668022758:aes(x=index) +
+1657668022765:geom_line(y=xrate, color = source)
+1657668027633:foo
+1657668040193:foo %>%
+1657668040204:ggplot() +
+1657668040214:aes(x=index) +
+1657668040221:geom_line(y=vars(xrate), color = source)
+1657668051658:foo %>%
+1657668051665:ggplot() +
+1657668051679:aes(x=index) +
+1657668051688:geom_line(y=xrate, color = source)
+1657668070507:foo %>%
+1657668070521:ggplot() +
+1657668070531:aes(x=index) +
+1657668070542:geom_line(aes(y=xrate, color = source))
+1657668086579:foo
+1657668107420:foo %>%
+1657668107431:ggplot() +
+1657668107438:aes(x=index) +
+1657668107446:geom_line(aes(y=xrate, color = source)) +
+1657668107452:geom_line(aes(y=.mean, color = source))
+1657669388865:library(latex2exp)
+1657669388877:library(tidyverse)
+1657669388889:library(ggplot2)
+1657669388899:library(patchwork)
+1657669388910:library(data.table)
+1657669388925:library(magrittr)
+1657669388935:library(patchwork)
+1657669388949:library(tsibble)
+1657669388957:library(fpp3)
+1657669388965:library(feasts)
+1657669388973:library(fable)
+1657669388981:library(astsa)
+1657669388993:library(lubridate)
+1657669389001:library(lmtest)
+1657669389015:berkeley_blue   <- '#003262'
+1657669389026:california_gold <- '#FDB515'
+1657669389040:options(htmltools.dir.version = FALSE)
+1657669389048:options(digits = 4)
+1657669389055:knitr::opts_chunk$set(echo = FALSE, dpi = 300, fig.height = 3)
+1657669389073:theme_set(theme_minimal())
+1657669389101:modal_arma_11 <- data_gbp_nzd %>%
+1657669389107:model(ARIMA(xrate ~ 1 + pdq(1, 0, 1) + PDQ(0, 0, 0)))
+1657669394880:model_arma_11 %>% report()
+1657669401905:modal_arma_11 <- data_gbp_nzd %>%
+1657669401913:model(ARIMA(xrate ~ 1 + pdq(1, 0, 1) + PDQ(0, 0, 0)))
+1657669402986:model_arma_11 %>% report()
+1657669410624:model_arma_11 <- data_gbp_nzd %>%
+1657669410633:model(ARIMA(xrate ~ 1 + pdq(1, 0, 1) + PDQ(0, 0, 0)))
+1657669411269:model_arma_11 %>% report()
+1657669450550:model_arma_11
+1657669707643:plot_ts_resid <- model_arma_11 %>%
+1657669707653:autoplot(.vars=.resid)
+1657669716485:model_arma_11
+1657669733059:plot_ts_resid <- model_arma_11 %>%
+1657669733273:augment() %>%
+1657669733287:autoplot(.vars=.resid)
+1657669757245:plot_ts_resid <- model_arma_11 %>%
+1657669757255:augment() %>%
+1657669757263:autoplot(.vars=.resid)
+1657669757344:plot_hist_resid <- model_arma_11 %>%
+1657669757353:augment() %>%
+1657669757361:ggplot() +
+1657669757370:aes(x=.resid) +
+1657669757377:geom_histogram(bins=10)
+1657669757454:plot_acf_resid <- model_arma_11 %>%
+1657669757462:augment() %>%
+1657669757471:ACF(y=.resid) %>%
+1657669757479:autoplot()
+1657669757602:plot_pacf_resid <- model_arma_11 %>%
+1657669757610:augment() %>%
+1657669757621:PACF(y=.resid) %>%
+1657669757629:autoplot()
+1657669768958:(plot_ts_resid | plot_ts_hist) /
+1657669768969:(plot_acf_resid | plot_pacf_resid)
+1657669781299:(plot_ts_resid | plot_hist_resid) /
+1657669781307:(plot_acf_resid | plot_pacf_resid)
+1657669872310:model_arma_11 %>%
+1657669872320:ggplot() +
+1657669872330:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657669872341:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657669872349:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657669872357:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657669872365:scale_color_manual(
+1657669872373:name = 'Series',
+1657669872380:values = c(
+1657669872388:'values' = berkeley_blue,
+1657669872397:'fitted' = california_gold,
+1657669872404:'residuals' = 'darkred')) +
+1657669872411:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657669885137:model_arma_11 %>%
+1657669885147:augment() %>%
+1657669885155:ggplot() +
+1657669885163:geom_line(aes(x=index, y=xrate,      color = 'values')) +
+1657669885171:geom_line(aes(x=index, y=.fitted,    color = 'fitted')) +
+1657669885177:geom_line(aes(x=index, y=.resid+3,   color = 'residuals'), linetype = 'dashed') +
+1657669885184:scale_y_continuous(sec.axis = sec_axis(~.-3, name = 'Residuals')) +
+1657669885191:scale_color_manual(
+1657669885199:name = 'Series',
+1657669885205:values = c(
+1657669885212:'values' = berkeley_blue,
+1657669885219:'fitted' = california_gold,
+1657669885226:'residuals' = 'darkred')) +
+1657669885233:labs(title = 'Actual, Fitted, and Residuals Plot')
+1657670075859:forecast(model_arma_11, h=6) %>%
+1657670075870:autoplot(data_gbp_nzd)
+1657670215722:data_gbp_nzd %>%
+1657670215731:model(
+1657670215738:ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)),
+1657670215745:arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))
+1657670215752:) %>%
+1657670215759:forecast(h=6)
+1657670233324:data_gbp_nzd %>%
+1657670233333:model(
+1657670233341:ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)),
+1657670233352:arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))
+1657670233359:) %>%
+1657670233367:forecast(h=6) %>%
+1657670233374:autoplot(data_gbp_nzd)
+1657670254961:?autoplot
+1657670299554:data_gbp_nzd %>%
+1657670299563:model(
+1657670299572:ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)),
+1657670299581:arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))
+1657670299589:) %>%
+1657670299596:forecast(h=6) %>%
+1657670299604:autoplot(data_gbp_nzd)
+1657670314640:data_gbp_nzd %>%
+1657670314647:model(
+1657670314655:ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)),
+1657670314663:arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))
+1657670314670:) %>%
+1657670314677:forecast(h=6)
+1657670329017:data_gbp_nzd %>%
+1657670329027:model(
+1657670329036:ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)),
+1657670329047:arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))
+1657670329056:) %>%
+1657670329064:forecast(h=6) %>%
+1657670329072:select(xrate, .mean) %>%
+1657670329080:autoplot(data_gbp_nzd)
+1657670458115:model_backtesting_arma <- data_gbp_nzd %>%
+1657670458125:filter(index <= 33) %>%
+1657670458135:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670538571:model_backtesting_arma <- data_gbp_nzd %>%
+1657670538580:filter(index <= 33) %>%
+1657670538590:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670538816:backtesting_plot_data_arma <- rbind(
+1657670538828:## backtesting data set
+1657670538840:augment(model_backtesting_arma) %>%
+1657670538849:rename(.mean = .fitted) %>%
+1657670538858:mutate(source = 'backtesting model') %>%
+1657670538868:select(index, xrate, .mean, source) %>%
+1657670538877:as_tibble(),
+1657670538886:## original data set
+1657670538894:data_gbp_nzd %>%
+1657670538902:mutate(
+1657670538910:source = 'original data',
+1657670538918:.mean = NA) %>%
+1657670538927:select(index, xrate, .mean, source),
+1657670538936:## forecasting dataset
+1657670538944:model_backtesting_arma %>%
+1657670538952:forecast(h=12) %>%
+1657670538960:as_tsibble() %>%
+1657670538968:mutate(
+1657670538977:source = 'forecast',
+1657670538985:xrate = NA) %>%
+1657670538996:select(index, xrate, .mean, source) %>%
+1657670539007:as_tibble()
+1657670539016:)
+1657670539255:backtesting_plot_data_arma %>%
+1657670539264:ggplot() +
+1657670539277:aes(x=index) +
+1657670539289:geom_line(aes(y=xrate, color = source)) +
+1657670539300:geom_line(aes(y=.mean, color = source))
+1657670640313:39 - 12
+1657670655439:model_backtesting_arma <- data_gbp_nzd %>%
+1657670655448:filter(index <= 27) %>%
+1657670655457:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670655630:backtesting_plot_data_arma <- rbind(
+1657670655641:## backtesting data set
+1657670655650:augment(model_backtesting_arma) %>%
+1657670655661:rename(.mean = .fitted) %>%
+1657670655671:mutate(source = 'backtesting model') %>%
+1657670655679:select(index, xrate, .mean, source) %>%
+1657670655688:as_tibble(),
+1657670655695:## original data set
+1657670655704:data_gbp_nzd %>%
+1657670655713:mutate(
+1657670655720:source = 'original data',
+1657670655728:.mean = NA) %>%
+1657670655735:select(index, xrate, .mean, source),
+1657670655743:## forecasting dataset
+1657670655750:model_backtesting_arma %>%
+1657670655758:forecast(h=12) %>%
+1657670655765:as_tsibble() %>%
+1657670655775:mutate(
+1657670655783:source = 'forecast',
+1657670655792:xrate = NA) %>%
+1657670655800:select(index, xrate, .mean, source) %>%
+1657670655809:as_tibble()
+1657670655818:)
+1657670656013:backtesting_plot_data_arma %>%
+1657670656024:ggplot() +
+1657670656038:aes(x=index) +
+1657670656059:geom_line(aes(y=xrate, color = source)) +
+1657670656073:geom_line(aes(y=.mean, color = source))
+1657670726020:model_backtesting_arma <- data_gbp_nzd %>%
+1657670726033:filter(index <= 27) %>%
+1657670726041:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670726180:backtesting_plot_data_arma <- rbind(
+1657670726188:## backtesting data set
+1657670726195:augment(model_backtesting_arma) %>%
+1657670726202:rename(.mean = .fitted) %>%
+1657670726208:mutate(source = 'backtesting model') %>%
+1657670726215:select(index, xrate, .mean, source) %>%
+1657670726223:as_tibble(),
+1657670726230:## original data set
+1657670726237:data_gbp_nzd %>%
+1657670726244:mutate(
+1657670726252:source = 'original data',
+1657670726258:.mean = NA) %>%
+1657670726265:select(index, xrate, .mean, source),
+1657670726272:## forecasting dataset
+1657670726279:model_backtesting_arma %>%
+1657670726286:forecast(h=18) %>%
+1657670726293:as_tsibble() %>%
+1657670726301:mutate(
+1657670726309:source = 'forecast',
+1657670726316:xrate = NA) %>%
+1657670726325:select(index, xrate, .mean, source) %>%
+1657670726340:as_tibble()
+1657670726348:)
+1657670726561:backtesting_plot_data_arma %>%
+1657670726569:ggplot() +
+1657670726577:aes(x=index) +
+1657670726586:geom_line(aes(y=xrate, color = source)) +
+1657670726594:geom_line(aes(y=.mean, color = source))
+1657670741842:model_backtesting_arma <- data_gbp_nzd %>%
+1657670741850:filter(index <= 33) %>%
+1657670741858:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670746846:model_backtesting_arma
+1657670756771:augment(model_backtesting_arma)
+1657670773488:model_backtesting_arma <- data_gbp_nzd %>%
+1657670773497:filter(index <= 27) %>%
+1657670773507:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670777815:augment(model_backtesting_arma)
+1657670808769:model_backtesting_arma %>%
+1657670808777:forecast(h=18) %>%
+1657670808784:as_tsibble()
+1657670838115:model_backtesting_arma <- data_gbp_nzd %>%
+1657670838124:filter(index <= 36) %>%
+1657670838132:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670838256:backtesting_plot_data_arma <- rbind(
+1657670838268:## backtesting data set
+1657670838279:augment(model_backtesting_arma) %>%
+1657670838290:rename(.mean = .fitted) %>%
+1657670838302:mutate(source = 'backtesting model') %>%
+1657670838315:select(index, xrate, .mean, source) %>%
+1657670838327:as_tibble(),
+1657670838342:## original data set
+1657670838356:data_gbp_nzd %>%
+1657670838370:mutate(
+1657670838383:source = 'original data',
+1657670838397:.mean = NA) %>%
+1657670838408:select(index, xrate, .mean, source),
+1657670838418:## forecasting dataset
+1657670838428:model_backtesting_arma %>%
+1657670838439:forecast(h=6) %>%
+1657670838450:as_tsibble() %>%
+1657670838460:mutate(
+1657670838469:source = 'forecast',
+1657670838479:xrate = NA) %>%
+1657670838488:select(index, xrate, .mean, source) %>%
+1657670838497:as_tibble()
+1657670838505:)
+1657670838679:backtesting_plot_data_arma %>%
+1657670838688:ggplot() +
+1657670838696:aes(x=index) +
+1657670838704:geom_line(aes(y=xrate, color = source)) +
+1657670838713:geom_line(aes(y=.mean, color = source))
+1657670867874:model_backtesting_arma <- data_gbp_nzd %>%
+1657670867883:filter(index <= 20) %>%
+1657670867891:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670868019:backtesting_plot_data_arma <- rbind(
+1657670868030:## backtesting data set
+1657670868042:augment(model_backtesting_arma) %>%
+1657670868053:rename(.mean = .fitted) %>%
+1657670868065:mutate(source = 'backtesting model') %>%
+1657670868075:select(index, xrate, .mean, source) %>%
+1657670868110:as_tibble(),
+1657670868122:## original data set
+1657670868135:data_gbp_nzd %>%
+1657670868146:mutate(
+1657670868157:source = 'original data',
+1657670868167:.mean = NA) %>%
+1657670868177:select(index, xrate, .mean, source),
+1657670868190:## forecasting dataset
+1657670868203:model_backtesting_arma %>%
+1657670868216:forecast(h=19) %>%
+1657670868227:as_tsibble() %>%
+1657670868240:mutate(
+1657670868250:source = 'forecast',
+1657670868259:xrate = NA) %>%
+1657670868269:select(index, xrate, .mean, source) %>%
+1657670868279:as_tibble()
+1657670868288:)
+1657670868522:backtesting_plot_data_arma %>%
+1657670868531:ggplot() +
+1657670868539:aes(x=index) +
+1657670868547:geom_line(aes(y=xrate, color = source)) +
+1657670868555:geom_line(aes(y=.mean, color = source))
+1657670896126:model_backtesting_arma <- data_gbp_nzd %>%
+1657670896135:filter(index <= 25) %>%
+1657670896143:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657670896294:backtesting_plot_data_arma <- rbind(
+1657670896306:## backtesting data set
+1657670896321:augment(model_backtesting_arma) %>%
+1657670896333:rename(.mean = .fitted) %>%
+1657670896347:mutate(source = 'backtesting model') %>%
+1657670896361:select(index, xrate, .mean, source) %>%
+1657670896373:as_tibble(),
+1657670896384:## original data set
+1657670896397:data_gbp_nzd %>%
+1657670896409:mutate(
+1657670896420:source = 'original data',
+1657670896430:.mean = NA) %>%
+1657670896440:select(index, xrate, .mean, source),
+1657670896450:## forecasting dataset
+1657670896460:model_backtesting_arma %>%
+1657670896472:forecast(h=39-25) %>%
+1657670896490:as_tsibble() %>%
+1657670896498:mutate(
+1657670896506:source = 'forecast',
+1657670896515:xrate = NA) %>%
+1657670896523:select(index, xrate, .mean, source) %>%
+1657670896531:as_tibble()
+1657670896542:)
+1657670896726:backtesting_plot_data_arma %>%
+1657670896736:ggplot() +
+1657670896745:aes(x=index) +
+1657670896753:geom_line(aes(y=xrate, color = source)) +
+1657670896762:geom_line(aes(y=.mean, color = source))
+1657671002384:backtesting_trials <- function(time_to_stop = 25) {
+1657671002395:model_backtesting_arma <- data_gbp_nzd %>%
+1657671002407:filter(index <= time_to_stop) %>%
+1657671002416:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657671002432:backtesting_plot_data_arma <- rbind(
+1657671002440:## backtesting data set
+1657671002448:augment(model_backtesting_arma) %>%
+1657671002457:rename(.mean = .fitted) %>%
+1657671002465:mutate(source = 'backtesting model') %>%
+1657671002472:select(index, xrate, .mean, source) %>%
+1657671002479:as_tibble(),
+1657671002486:## original data set
+1657671002493:data_gbp_nzd %>%
+1657671002500:mutate(
+1657671002510:source = 'original data',
+1657671002520:.mean = NA) %>%
+1657671002528:select(index, xrate, .mean, source),
+1657671002538:## forecasting dataset
+1657671002546:model_backtesting_arma %>%
+1657671002555:forecast(h=39-time_to_stop) %>%
+1657671002566:as_tsibble() %>%
+1657671002575:mutate(
+1657671002584:source = 'forecast',
+1657671002592:xrate = NA) %>%
+1657671002599:select(index, xrate, .mean, source) %>%
+1657671002606:as_tibble()
+1657671002614:)
+1657671002626:backtesting_plot_data_arma %>%
+1657671002633:ggplot() +
+1657671002640:aes(x=index) +
+1657671002647:geom_line(aes(y=xrate, color = source)) +
+1657671002655:geom_line(aes(y=.mean, color = source))
+1657671002662:}
+1657671002678:backtesting_trials(time_to_stop = 25)
+1657671015491:backtesting_trials <- function(time_to_stop = 25) {
+1657671015498:model_backtesting_arma <- data_gbp_nzd %>%
+1657671015506:filter(index <= time_to_stop) %>%
+1657671015515:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657671015529:backtesting_plot_data_arma <- rbind(
+1657671015537:## backtesting data set
+1657671015547:augment(model_backtesting_arma) %>%
+1657671015554:rename(.mean = .fitted) %>%
+1657671015561:mutate(source = 'backtesting model') %>%
+1657671015569:select(index, xrate, .mean, source) %>%
+1657671015577:as_tibble(),
+1657671015584:## original data set
+1657671015614:data_gbp_nzd %>%
+1657671015623:mutate(
+1657671015632:source = 'original data',
+1657671015641:.mean = NA) %>%
+1657671015649:select(index, xrate, .mean, source),
+1657671015657:## forecasting dataset
+1657671015665:model_backtesting_arma %>%
+1657671015677:forecast(h=39-time_to_stop) %>%
+1657671015691:as_tsibble() %>%
+1657671015700:mutate(
+1657671015709:source = 'forecast',
+1657671015718:xrate = NA) %>%
+1657671015727:select(index, xrate, .mean, source) %>%
+1657671015734:as_tibble()
+1657671015742:)
+1657671015753:backtesting_plot_data_arma %>%
+1657671015761:ggplot() +
+1657671015768:aes(x=index) +
+1657671015776:geom_line(aes(y=xrate, color = source)) +
+1657671015783:geom_line(aes(y=.mean, color = source))
+1657671015791:}
+1657671015806:backtesting_trials(time_to_stop = 33)
+1657671023729:backtesting_trials <- function(time_to_stop = 25) {
+1657671023738:model_backtesting_arma <- data_gbp_nzd %>%
+1657671023747:filter(index <= time_to_stop) %>%
+1657671023754:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657671023768:backtesting_plot_data_arma <- rbind(
+1657671023775:## backtesting data set
+1657671023783:augment(model_backtesting_arma) %>%
+1657671023790:rename(.mean = .fitted) %>%
+1657671023798:mutate(source = 'backtesting model') %>%
+1657671023805:select(index, xrate, .mean, source) %>%
+1657671023812:as_tibble(),
+1657671023820:## original data set
+1657671023831:data_gbp_nzd %>%
+1657671023844:mutate(
+1657671023857:source = 'original data',
+1657671023866:.mean = NA) %>%
+1657671023874:select(index, xrate, .mean, source),
+1657671023882:## forecasting dataset
+1657671023890:model_backtesting_arma %>%
+1657671023898:forecast(h=39-time_to_stop) %>%
+1657671023906:as_tsibble() %>%
+1657671023914:mutate(
+1657671023921:source = 'forecast',
+1657671023928:xrate = NA) %>%
+1657671023937:select(index, xrate, .mean, source) %>%
+1657671023944:as_tibble()
+1657671023952:)
+1657671023963:backtesting_plot_data_arma %>%
+1657671023971:ggplot() +
+1657671023979:aes(x=index) +
+1657671023986:geom_line(aes(y=xrate, color = source)) +
+1657671023993:geom_line(aes(y=.mean, color = source))
+1657671024000:}
+1657671024015:backtesting_trials(time_to_stop = 6)
+1657671038323:backtesting_trials <- function(time_to_stop = 25) {
+1657671038331:model_backtesting_arma <- data_gbp_nzd %>%
+1657671038338:filter(index <= time_to_stop) %>%
+1657671038345:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657671038358:backtesting_plot_data_arma <- rbind(
+1657671038365:## backtesting data set
+1657671038372:augment(model_backtesting_arma) %>%
+1657671038379:rename(.mean = .fitted) %>%
+1657671038386:mutate(source = 'backtesting model') %>%
+1657671038393:select(index, xrate, .mean, source) %>%
+1657671038401:as_tibble(),
+1657671038409:## original data set
+1657671038417:data_gbp_nzd %>%
+1657671038425:mutate(
+1657671038432:source = 'original data',
+1657671038439:.mean = NA) %>%
+1657671038447:select(index, xrate, .mean, source),
+1657671038454:## forecasting dataset
+1657671038462:model_backtesting_arma %>%
+1657671038470:forecast(h=39-time_to_stop) %>%
+1657671038477:as_tsibble() %>%
+1657671038484:mutate(
+1657671038492:source = 'forecast',
+1657671038499:xrate = NA) %>%
+1657671038506:select(index, xrate, .mean, source) %>%
+1657671038514:as_tibble()
+1657671038521:)
+1657671038535:backtesting_plot_data_arma %>%
+1657671038542:ggplot() +
+1657671038549:aes(x=index) +
+1657671038556:geom_line(aes(y=xrate, color = source)) +
+1657671038563:geom_line(aes(y=.mean, color = source))
+1657671038571:}
+1657671038585:backtesting_trials(time_to_stop = 10)
+1657671060672:backtesting_trials <- function(time_to_stop = 25) {
+1657671060682:model_backtesting_arma <- data_gbp_nzd %>%
+1657671060690:filter(index <= time_to_stop) %>%
+1657671060697:model(ARIMA(formula = xrate ~ 1 + pdq(10,0,1) + PDQ(0,0,0)))
+1657671060710:backtesting_plot_data_arma <- rbind(
+1657671060716:## backtesting data set
+1657671060723:augment(model_backtesting_arma) %>%
+1657671060730:rename(.mean = .fitted) %>%
+1657671060737:mutate(source = 'backtesting model') %>%
+1657671060743:select(index, xrate, .mean, source) %>%
+1657671060750:as_tibble(),
+1657671060757:## original data set
+1657671060764:data_gbp_nzd %>%
+1657671060771:mutate(
+1657671060778:source = 'original data',
+1657671060785:.mean = NA) %>%
+1657671060792:select(index, xrate, .mean, source),
+1657671060799:## forecasting dataset
+1657671060808:model_backtesting_arma %>%
+1657671060814:forecast(h=39-time_to_stop) %>%
+1657671060822:as_tsibble() %>%
+1657671060829:mutate(
+1657671060837:source = 'forecast',
+1657671060845:xrate = NA) %>%
+1657671060852:select(index, xrate, .mean, source) %>%
+1657671060860:as_tibble()
+1657671060867:)
+1657671060880:backtesting_plot_data_arma %>%
+1657671060888:ggplot() +
+1657671060895:aes(x=index) +
+1657671060903:geom_line(aes(y=xrate, color = source)) +
+1657671060910:geom_line(aes(y=.mean, color = source))
+1657671060918:}
+1657671060934:backtesting_trials(time_to_stop = 10)
+1657671065555:backtesting_trials(time_to_stop = 10)
+1657671071926:backtesting_trials(time_to_stop = 15)
+1657671076876:backtesting_trials(time_to_stop = 30)
+1657671088485:backtesting_trials <- function(time_to_stop = 25) {
+1657671088494:model_backtesting_arma <- data_gbp_nzd %>%
+1657671088502:filter(index <= time_to_stop) %>%
+1657671088510:model(ARIMA(formula = xrate ~ 1 + pdq(5,0,1) + PDQ(0,0,0)))
+1657671088524:backtesting_plot_data_arma <- rbind(
+1657671088538:## backtesting data set
+1657671088545:augment(model_backtesting_arma) %>%
+1657671088552:rename(.mean = .fitted) %>%
+1657671088561:mutate(source = 'backtesting model') %>%
+1657671088568:select(index, xrate, .mean, source) %>%
+1657671088575:as_tibble(),
+1657671088583:## original data set
+1657671088593:data_gbp_nzd %>%
+1657671088604:mutate(
+1657671088617:source = 'original data',
+1657671088626:.mean = NA) %>%
+1657671088634:select(index, xrate, .mean, source),
+1657671088642:## forecasting dataset
+1657671088650:model_backtesting_arma %>%
+1657671088657:forecast(h=39-time_to_stop) %>%
+1657671088664:as_tsibble() %>%
+1657671088671:mutate(
+1657671088678:source = 'forecast',
+1657671088686:xrate = NA) %>%
+1657671088693:select(index, xrate, .mean, source) %>%
+1657671088700:as_tibble()
+1657671088708:)
+1657671088720:backtesting_plot_data_arma %>%
+1657671088727:ggplot() +
+1657671088733:aes(x=index) +
+1657671088740:geom_line(aes(y=xrate, color = source)) +
+1657671088747:geom_line(aes(y=.mean, color = source))
+1657671088755:}
+1657671088770:backtesting_trials(time_to_stop = 30)
+1657671091406:backtesting_trials(time_to_stop = 30)
+1657671097336:backtesting_trials(time_to_stop = 20)
+1657671102539:backtesting_trials(time_to_stop = 33)
+1657671111188:backtesting_trials(time_to_stop = 36)
+1657671116238:backtesting_trials(time_to_stop = 39)
+1657671120091:backtesting_trials(time_to_stop = 38)
+1657671140927:backtesting_trials <- function(time_to_stop = 25) {
+1657671140935:model_backtesting_arma <- data_gbp_nzd %>%
+1657671140943:filter(index <= time_to_stop) %>%
+1657671140950:model(ARIMA(formula = xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0)))
+1657671140963:backtesting_plot_data_arma <- rbind(
+1657671140970:## backtesting data set
+1657671140978:augment(model_backtesting_arma) %>%
+1657671140985:rename(.mean = .fitted) %>%
+1657671140992:mutate(source = 'backtesting model') %>%
+1657671140999:select(index, xrate, .mean, source) %>%
+1657671141006:as_tibble(),
+1657671141013:## original data set
+1657671141021:data_gbp_nzd %>%
+1657671141028:mutate(
+1657671141036:source = 'original data',
+1657671141043:.mean = NA) %>%
+1657671141050:select(index, xrate, .mean, source),
+1657671141061:## forecasting dataset
+1657671141068:model_backtesting_arma %>%
+1657671141075:forecast(h=39-time_to_stop) %>%
+1657671141082:as_tsibble() %>%
+1657671141090:mutate(
+1657671141096:source = 'forecast',
+1657671141103:xrate = NA) %>%
+1657671141110:select(index, xrate, .mean, source) %>%
+1657671141118:as_tibble()
+1657671141125:)
+1657671141137:backtesting_plot_data_arma %>%
+1657671141145:ggplot() +
+1657671141152:aes(x=index) +
+1657671141160:geom_line(aes(y=xrate, color = source)) +
+1657671141169:geom_line(aes(y=.mean, color = source))
+1657671141176:}
+1657671141191:backtesting_trials(time_to_stop = 39-12)
+1657671155936:backtesting_trials(time_to_stop = 39-10)
+1657673885837:random_walk <- function(time_periods=100, variance=1){
+1657673885848:rw <- rep(NA, time_periods)
+1657673885855:rw[1] <- 0
+1657673885863:for(i in 2:time_periods) {rw[i] <- rw[i-1] + rnorm(1, 0, variance)}
+1657673885873:}
+1657673916170:random_walk <- function(time_periods=100, variance=1){
+1657673916180:rw <- rep(NA, time_periods)
+1657673916189:rw[1] <- 0
+1657673916198:for(i in 2:time_periods) {rw[i] <- rw[i-1] + rnorm(1, 0, variance)}
+1657673916209:}
+1657673916227:ggplot(aes(x=1:100, y=random_walk(100))) + geom_line()
+1657673930047:ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))
+1657673940463:random_walk <- function(time_periods=100, variance=1){
+1657673940471:rw <- rep(NA, time_periods)
+1657673940478:rw[1] <- 0
+1657673940484:for(i in 2:time_periods) {rw[i] <- rw[i-1] + rnorm(1, 0, variance)}
+1657673940491:}
+1657673944740:random_walk(100)
+1657673956629:random_walk <- function(time_periods=100, variance=1){
+1657673956639:rw <- rep(NA, time_periods)
+1657673956655:rw[1] <- 0
+1657673956664:for(i in 2:time_periods) {rw[i] <- rw[i-1] + rnorm(1, 0, variance)}
+1657673956672:return(rw)
+1657673956680:}
+1657673956695:ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))
+1657674130615:random_walk_with_drive <- function(time_periods=100, drift=0.5, variance=1){
+1657674130625:rwd <- rep(NA, time_periods)
+1657674130634:rwd[1] <- 0
+1657674130643:for(i in 2:time_periods) {rw[i] <- drift + rw[i-1] + rnorm(1, 0, variance)}
+1657674130652:return(rwd)
+1657674130661:}
+1657674130679:ggplot() + geom_line(aes(x=1:100, y=random_walk(100)))
+1657674136583:random_walk_with_drive <- function(time_periods=100, drift=0.5, variance=1){
+1657674136593:rwd <- rep(NA, time_periods)
+1657674136602:rwd[1] <- 0
+1657674136610:for(i in 2:time_periods) {rw[i] <- drift + rw[i-1] + rnorm(1, 0, variance)}
+1657674136617:return(rwd)
+1657674136625:}
+1657674136641:ggplot() + geom_line(aes(x=1:100, y=random_walk_drift(100)))
+1657674150719:random_walk_with_drift <- function(time_periods=100, drift=0.5, variance=1){
+1657674150728:rwd <- rep(NA, time_periods)
+1657674150736:rwd[1] <- 0
+1657674150744:for(i in 2:time_periods) {rw[i] <- drift + rw[i-1] + rnorm(1, 0, variance)}
+1657674150751:return(rwd)
+1657674150759:}
+1657674150776:ggplot() + geom_line(aes(x=1:100, y=random_walk_with_drift(100)))
+1657674161162:random_walk_with_drift <- function(time_periods=100, drift=0.5, variance=1){
+1657674161171:rwd <- rep(NA, time_periods)
+1657674161179:rwd[1] <- 0
+1657674161187:for(i in 2:time_periods) {rwd[i] <- drift + rwd[i-1] + rnorm(1, 0, variance)}
+1657674161194:return(rwd)
+1657674161202:}
+1657674161216:ggplot() + geom_line(aes(x=1:100, y=random_walk_with_drift(100)))
+1657674369510:ggplot() +
+1657674369520:geom_line(aes(x=1:100, y=random_walk(100), color='Without Drift'))
+1657674369680:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674369689:scale_fill_manual(
+1657674369698:name = "Drifty?",
+1657674369707:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)
+1657674369717:)
+1657674388758:ggplot() +
+1657674388766:geom_line(aes(x=1:100, y=random_walk(100), color='Without Drift')) +
+1657674388774:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674388780:scale_fill_manual(
+1657674388788:name = "Drifty?",
+1657674388795:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)
+1657674388803:)
+1657674417824:ggplot() +
+1657674417833:geom_line(aes(x=1:100, y=20+random_walk(100), color='Without Drift')) +
+1657674417841:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674417849:scale_fill_manual(
+1657674417857:name = "Drifty?",
+1657674417865:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)
+1657674417873:)
+1657674422550:ggplot() +
+1657674422558:geom_line(aes(x=1:100, y=20+random_walk(100), color='Without Drift')) +
+1657674422565:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674422572:scale_fill_manual(
+1657674422580:name = "Drifty?",
+1657674422588:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)
+1657674422597:)
+1657674462929:ggplot() +
+1657674462937:geom_line(aes(x=1:100, y=20+random_walk(100), color='Without Drift')) +
+1657674462945:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674462952:scale_color_manual(
+1657674462959:name = "Drifty?",
+1657674462966:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)
+1657674462974:)
+1657674500181:ggplot() +
+1657674500189:geom_line(aes(x=1:100, y=20+random_walk(100), color='Without Drift')) +
+1657674500196:geom_line(aes(x=1:100, y=random_walk_with_drift(100), color='With Drift')) +
+1657674500207:scale_color_manual(
+1657674500215:name = "Drifty?",
+1657674500223:values=c('Without Drift' = berkeley_blue, 'With Drift' = california_gold)) +
+1657674500231:labs(
+1657674500239:title = 'Random Walk Process with and without Drift',
+1657674500246:x = 'Time', y = 'Value'
+1657674500253:)
+1657677265633:y <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677266677:omega <- rep(NA)
+1657677268094:for(t in 3:100) {
+1657677268102:omega[t-1] <- rnorm(1)
+1657677268109:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677268115:}
+1657677280667:y
+1657677396896:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677397450:omega <- c(rnorm(3), rep(NA, 97))
+1657677398553:for(t in 3:100) {
+1657677398563:omega[t+1] <- rnorm(1)
+1657677398570:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677398577:}
+1657677402006:y
+1657677432551:set.seed(898)
+1657677432560:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677432571:omega <- c(rnorm(3), rep(NA, 97))
+1657677432587:for(t in 3:100) {
+1657677432596:omega[t+1] <- rnorm(1)
+1657677432603:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677432609:}
+1657677432635:y
+1657677440146:set.seed(898)
+1657677440156:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677440166:omega <- c(rnorm(3), rep(NA, 97))
+1657677440180:for(t in 3:100) {
+1657677440189:omega[t+1] <- rnorm(1)
+1657677440197:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677440204:}
+1657677440228:y
+1657677482050:set.seed(898)
+1657677482058:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677482069:omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks
+1657677482087:for(t in 3:100) {
+1657677482095:omega[t+1] <- rnorm(1) # make a shock for the next time period
+1657677482104:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677482111:}
+1657677482137:y[1:10]
+1657677655753:set.seed(898)
+1657677655766:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677655778:omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks
+1657677655795:for(t in 3:100) {
+1657677655804:omega[t+1] <- rnorm(1) # make a shock for the next time period
+1657677655812:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677655820:}
+1657677655846:series <- tsibble(
+1657677655854:index = 1:100, y=y
+1657677655863:)
+1657677671959:set.seed(898)
+1657677671969:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677671980:omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks
+1657677671996:for(t in 3:100) {
+1657677672004:omega[t+1] <- rnorm(1) # make a shock for the next time period
+1657677672011:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677672018:}
+1657677672042:series <- tsibble(
+1657677672049:index = 1:100, value=y
+1657677672056:)
+1657677678425:series <- as_tsibble(
+1657677678433:index = 1:100, value=y
+1657677678441:)
+1657677696379:?tsibble
+1657677758552:set.seed(898)
+1657677758560:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657677758571:omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks
+1657677758586:for(t in 3:100) {
+1657677758593:omega[t+1] <- rnorm(1) # make a shock for the next time period
+1657677758600:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657677758608:}
+1657677758635:series <- tsibble(
+1657677758642:time  = 1:100,
+1657677758649:value = y,
+1657677758657:index = time
+1657677758665:)
+1657677773282:series <- tsibble(
+1657677773291:time  = 1:100,
+1657677773299:value = y,
+1657677773307:index = time
+1657677773315:)
+1657677773341:glimpse(series)
+1657677833259:plot_ts <- series %>%
+1657677833267:ggplot() +
+1657677833276:geom_line(aes(x=1:100, y=value)) +
+1657677833283:labs(title = 'Simulated Series')
+1657677833315:plot_first_diff <-
+1657677833323:series %>% ggplot() +
+1657677833331:geom_line(aes(x=2:100, y=diff(value))) +
+1657677833339:labs(title = 'First Difference of Series')
+1657677833369:plot_acf <- series %>%
+1657677833377:ACF(y=value) +
+1657677833386:autoplot()
+1657677842646:plot_acf <- series %>%
+1657677842654:ACF(y=value) %>%
+1657677842662:autoplot()
+1657678048305:plot_ts <- series %>%
+1657678048313:ggplot() +
+1657678048321:aes(x=1:100, y=value) +
+1657678048328:geom_line() +
+1657678048336:labs(title = 'Simulated Series')
+1657678048370:plot_first_diff_ts <- series %>%
+1657678048377:ggplot() +
+1657678048384:aes(x=2:100, y=diff(value)) +
+1657678048391:geom_line() +
+1657678048398:labs(title = 'First Difference of Series')
+1657678048453:plot_acf <- series %>%
+1657678048462:ACF(y=value) %>%
+1657678048471:autoplot() +
+1657678048480:labs(title = 'ACF of Series')
+1657678048552:plot_first_diff_acf <- series %>%
+1657678048560:mutate(diff_value) %>%
+1657678048568:ACF(y=diff_value) +
+1657678048577:autoplot() +
+1657678048585:labs(title = 'ACF of First Difference Series')
+1657678064787:plot_first_diff_acf <- series %>%
+1657678064795:mutate(diff_value = diff(value)) %>%
+1657678064805:ACF(y=diff_value) +
+1657678064811:autoplot() +
+1657678064817:labs(title = 'ACF of First Difference Series')
+1657678071804:plot_ts <- series %>%
+1657678071812:ggplot() +
+1657678071820:aes(x=1:100, y=value) +
+1657678071828:geom_line() +
+1657678071838:labs(title = 'Simulated Series')
+1657678071870:plot_first_diff_ts <- series %>%
+1657678071878:ggplot() +
+1657678071886:aes(x=2:100, y=diff(value)) +
+1657678071894:geom_line() +
+1657678071901:labs(title = 'First Difference of Series')
+1657678071930:plot_acf <- series %>%
+1657678071938:ACF(y=value) %>%
+1657678071945:autoplot() +
+1657678071952:labs(title = 'ACF of Series')
+1657678072017:plot_first_diff_acf <- series %>%
+1657678072026:mutate(diff_value = diff(value)) %>%
+1657678072035:ACF(y=diff_value) +
+1657678072044:autoplot() +
+1657678072053:labs(title = 'ACF of First Difference Series')
+1657678106517:plot_ts <- series %>%
+1657678106526:ggplot() +
+1657678106534:aes(x=1:100, y=value) +
+1657678106541:geom_line() +
+1657678106549:labs(title = 'Simulated Series')
+1657678106581:plot_first_diff_ts <- series %>%
+1657678106591:ggplot() +
+1657678106599:aes(x=2:100, y=diff(value)) +
+1657678106607:geom_line() +
+1657678106615:labs(title = 'First Difference of Series')
+1657678106697:plot_acf <- series %>%
+1657678106714:ACF(y=value) %>%
+1657678106727:autoplot() +
+1657678106738:labs(title = 'ACF of Series')
+1657678106813:plot_first_diff_acf <- series %>%
+1657678106824:mutate(diff_value = c(NA, diff(value))) %>%
+1657678106833:ACF(y=diff_value) +
+1657678106842:autoplot() +
+1657678106850:labs(title = 'ACF of First Difference Series')
+1657678114083:series %>%
+1657678114089:mutate(diff_value = c(NA, diff(value)))
+1657678124660:plot_ts <- series %>%
+1657678124668:ggplot() +
+1657678124677:aes(x=1:100, y=value) +
+1657678124684:geom_line() +
+1657678124691:labs(title = 'Simulated Series')
+1657678124722:plot_first_diff_ts <- series %>%
+1657678124731:ggplot() +
+1657678124739:aes(x=2:100, y=diff(value)) +
+1657678124746:geom_line() +
+1657678124753:labs(title = 'First Difference of Series')
+1657678124782:plot_acf <- series %>%
+1657678124790:ACF(y=value) %>%
+1657678124797:autoplot() +
+1657678124804:labs(title = 'ACF of Series')
+1657678124868:plot_first_diff_acf <- series %>%
+1657678124877:mutate(diff_value = c(NA, diff(value))) %>%
+1657678124886:ACF(y=diff_value) %>%
+1657678124894:autoplot() +
+1657678124901:labs(title = 'ACF of First Difference Series')
+1657678124979:plot_pacf <- series %>%
+1657678124987:PACF(y=value) %>%
+1657678124995:autoplot()
+1657678125085:plot_first_diff_pacf <- series %>%
+1657678125093:mutate(diff_value = c(NA, diff(value))) %>%
+1657678125102:PACF(y=diff_value) %>%
+1657678125110:autoplot() +
+1657678125118:labs(title = 'PACF of First Difference Series')
+1657678163456:(plot_ts | plot_first_diff_ts) /
+1657678163468:(plot_acf | plot_first_diff_acf) /
+1657678163481:(plot_pacf | plot_first_diff_pacf)
+1657678172262:plot_ts
+1657678175773:plot_first_diff_ts
+1657678227847:plot_first_diff_ts <- series %>%
+1657678227858:mutate(diff_value = c(NA, diff(value))) %>%
+1657678227868:autoplot() +
+1657678227877:labs(title = 'First Difference of Series')
+1657678240919:plot_ts <- series %>%
+1657678240927:autoplot() +
+1657678240934:labs(title = 'Simulated Series')
+1657678240969:plot_first_diff_ts <- series %>%
+1657678240976:mutate(diff_value = c(NA, diff(value))) %>%
+1657678240987:autoplot() +
+1657678240994:labs(title = 'First Difference of Series')
+1657678241035:plot_acf <- series %>%
+1657678241043:ACF(y=value) %>%
+1657678241051:autoplot() +
+1657678241058:labs(title = 'ACF of Series')
+1657678241125:plot_first_diff_acf <- series %>%
+1657678241135:mutate(diff_value = c(NA, diff(value))) %>%
+1657678241144:ACF(y=diff_value) %>%
+1657678241154:autoplot() +
+1657678241172:labs(title = 'ACF of First Difference Series')
+1657678241266:plot_pacf <- series %>%
+1657678241278:PACF(y=value) %>%
+1657678241287:autoplot()
+1657678241356:plot_first_diff_pacf <- series %>%
+1657678241364:mutate(diff_value = c(NA, diff(value))) %>%
+1657678241373:PACF(y=diff_value) %>%
+1657678241384:autoplot() +
+1657678241396:labs(title = 'PACF of First Difference Series')
+1657678269207:plot_ts <- series %>%
+1657678269215:autoplot(.vars=value) +
+1657678269224:labs(title = 'Simulated Series')
+1657678269258:plot_first_diff_ts <- series %>%
+1657678269266:mutate(diff_value = c(NA, diff(value))) %>%
+1657678269273:autoplot(.vars=value) +
+1657678269281:labs(title = 'First Difference of Series')
+1657678269318:plot_acf <- series %>%
+1657678269325:ACF(y=value) %>%
+1657678269333:autoplot() +
+1657678269341:labs(title = 'ACF of Series')
+1657678269408:plot_first_diff_acf <- series %>%
+1657678269418:mutate(diff_value = c(NA, diff(value))) %>%
+1657678269428:ACF(y=diff_value) %>%
+1657678269437:autoplot() +
+1657678269448:labs(title = 'ACF of First Difference Series')
+1657678269549:plot_pacf <- series %>%
+1657678269557:PACF(y=value) %>%
+1657678269564:autoplot()
+1657678269632:plot_first_diff_pacf <- series %>%
+1657678269640:mutate(diff_value = c(NA, diff(value))) %>%
+1657678269649:PACF(y=diff_value) %>%
+1657678269657:autoplot() +
+1657678269665:labs(title = 'PACF of First Difference Series')
+1657678271798:(plot_ts | plot_first_diff_ts) /
+1657678271806:(plot_acf | plot_first_diff_acf) /
+1657678271814:(plot_pacf | plot_first_diff_pacf)
+1657678310814:plot_ts <- series %>%
+1657678310826:autoplot(.vars=value) +
+1657678310835:labs(title = 'Simulated Series')
+1657678310873:plot_first_diff_ts <- series %>%
+1657678310882:mutate(diff_value = c(NA, diff(value))) %>%
+1657678310893:autoplot(.vars=value) +
+1657678310902:labs(title = 'First Difference of Series')
+1657678310964:plot_acf <- series %>%
+1657678310974:ACF(y=value) %>%
+1657678310983:autoplot() +
+1657678310992:labs(title = 'ACF of Series')
+1657678311062:plot_first_diff_acf <- series %>%
+1657678311071:mutate(diff_value = c(NA, diff(value))) %>%
+1657678311079:ACF(y=diff_value) %>%
+1657678311087:autoplot() +
+1657678311095:labs(title = 'ACF of First Difference Series')
+1657678311166:plot_pacf <- series %>%
+1657678311175:PACF(y=value) %>%
+1657678311183:autoplot() +
+1657678311192:labs(title = 'PACF of Series')
+1657678311258:plot_first_diff_pacf <- series %>%
+1657678311266:mutate(diff_value = c(NA, diff(value))) %>%
+1657678311274:PACF(y=diff_value) %>%
+1657678311282:autoplot() +
+1657678311289:labs(title = 'PACF of First Difference Series')
+1657678313498:(plot_ts | plot_first_diff_ts) /
+1657678313509:(plot_acf | plot_first_diff_acf) /
+1657678313517:(plot_pacf | plot_first_diff_pacf)
+1657678406176:series
+1657678436399:fit_model <- series %>%
+1657678436408:model(
+1657678436417:arima_model = ARIMA(value ~ 1 + pdq(1,1,1) + PDQ(0,0,0))
+1657678436427:)
+1657678436542:fit_model %>% report()
+1657678448875:set.seed(898)
+1657678448884:y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise
+1657678448894:omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks
+1657678448909:for(t in 3:100) {
+1657678448918:omega[t+1] <- rnorm(1) # make a shock for the next time period
+1657678448926:y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]
+1657678448934:}
+1657678452086:series <- tsibble(
+1657678452094:time  = 1:100,
+1657678452101:value = y,
+1657678452109:index = time
+1657678452116:)
+1657678452141:glimpse(series)
+1657678455233:fit_model <- series %>%
+1657678455241:model(
+1657678455249:arima_model = ARIMA(value ~ 1 + pdq(1,1,1) + PDQ(0,0,0))
+1657678455257:)
+1657678455367:fit_model %>% report()
+1657678477254:fit_model <- series %>%
+1657678477262:model(
+1657678477270:arima_model = ARIMA(value ~ 0 + pdq(1,1,1) + PDQ(0,0,0))
+1657678477279:)
+1657678477327:fit_model %>% report()
+1657678482008:fit_model <- series %>%
+1657678482017:model(
+1657678482025:arima_model = ARIMA(value ~ 1 + pdq(1,1,1) + PDQ(0,0,0))
+1657678482033:)
+1657678482146:fit_model %>% report()
+1657678609281:series %>%
+1657678609292:augment() %>%
+1657678609301:autoplot(.vars = .resid)
+1657678637843:series %>%
+1657678637851:augment() %>%
+1657678637859:ggplot() +
+1657678637867:aes(x=index, y=.resid) +
+1657678637875:geom_line()
+1657678647650:fit_model %>%
+1657678647660:augment() %>%
+1657678647670:ggplot() +
+1657678647678:aes(x=index, y=.resid) +
+1657678647686:geom_line()
+1657678660698:fit_model %>%
+1657678660711:augment() %>%
+1657678660747:autoplot(.vars=.resid)
+1657678686049:fit_model %>%
+1657678686064:augment() %>%
+1657678686074:ggplot() +
+1657678686083:aes(x=.resid) +
+1657678686092:geom_histogram(bins=10)
+1657678710340:fit_model %>%
+1657678710350:augment() %>%
+1657678710359:ACF(y=.resid) %>%
+1657678710370:autoplot()
+1657678727519:fit_model %>%
+1657678727528:augment() %>%
+1657678727537:autoplot(.vars=.resid)
+1657678727680:fit_model %>%
+1657678727690:augment() %>%
+1657678727699:ggplot() +
+1657678727707:aes(x=.resid) +
+1657678727714:geom_histogram(bins=10)
+1657678727948:fit_model %>%
+1657678727957:augment() %>%
+1657678727964:ACF(y=.resid) %>%
+1657678727972:autoplot()
+1657678728232:fit_model %>%
+1657678728241:augment() %>%
+1657678728248:PACF(y=.resid) %>%
+1657678728257:autoplot()
+1657678760497:p1 <- fit_model %>%
+1657678760507:augment() %>%
+1657678760516:autoplot(.vars=.resid)
+1657678760596:p2 <- fit_model %>%
+1657678760610:augment() %>%
+1657678760620:ggplot() +
+1657678760633:aes(x=.resid) +
+1657678760646:geom_histogram(bins=10)
+1657678760760:p3 <- fit_model %>%
+1657678760771:augment() %>%
+1657678760789:ACF(y=.resid) %>%
+1657678760801:autoplot()
+1657678760966:p4 <- fit_model %>%
+1657678760975:augment() %>%
+1657678760983:PACF(y=.resid) %>%
+1657678760992:autoplot()
+1657678761125:(p1 | p2) /
+1657678761133:(p3 | p4)
+1657678777467:p1 <- fit_model %>%
+1657678777476:augment() %>%
+1657678777485:autoplot(.vars=.resid)
+1657678777565:p2 <- fit_model %>%
+1657678777574:augment() %>%
+1657678777583:ggplot() +
+1657678777592:aes(x=.resid) +
+1657678777602:geom_histogram(bins=10)
+1657678777698:p3 <- fit_model %>%
+1657678777707:augment() %>%
+1657678777715:ACF(y=.resid) %>%
+1657678777722:autoplot()
+1657678777829:p4 <- fit_model %>%
+1657678777837:augment() %>%
+1657678777846:PACF(y=.resid) %>%
+1657678777854:autoplot()
+1657678777975:(p1 | p2) /
+1657678777984:(p3 | p4) +
+1657678777992:.(title = 'Model Diagnostics')
+1657678785449:p1 <- fit_model %>%
+1657678785458:augment() %>%
+1657678785465:autoplot(.vars=.resid)
+1657678785543:p2 <- fit_model %>%
+1657678785551:augment() %>%
+1657678785559:ggplot() +
+1657678785566:aes(x=.resid) +
+1657678785574:geom_histogram(bins=10)
+1657678785649:p3 <- fit_model %>%
+1657678785658:augment() %>%
+1657678785666:ACF(y=.resid) %>%
+1657678785674:autoplot()
+1657678785781:p4 <- fit_model %>%
+1657678785790:augment() %>%
+1657678785798:PACF(y=.resid) %>%
+1657678785807:autoplot()
+1657678785996:(p1 | p2) /
+1657678786004:(p3 | p4)
+1657678838914:p1 <- fit_model %>%
+1657678838924:augment() %>%
+1657678838932:autoplot(.vars=.resid) +
+1657678838941:labs(title = 'Residual Series')
+1657678839019:p2 <- fit_model %>%
+1657678839030:augment() %>%
+1657678839041:ggplot() +
+1657678839054:aes(x=.resid) +
+1657678839066:geom_histogram(bins=10) +
+1657678839079:labs(title = 'Histogram of Residudals')
+1657678839190:p3 <- fit_model %>%
+1657678839203:augment() %>%
+1657678839218:ACF(y=.resid) %>%
+1657678839230:autoplot() +
+1657678839244:labs(title = 'ACF of Residuals')
+1657678839389:p4 <- fit_model %>%
+1657678839397:augment() %>%
+1657678839406:PACF(y=.resid) %>%
+1657678839416:autoplot() +
+1657678839427:labs(title = 'PACF of Residuals')
+1657678839555:(p1 | p2) /
+1657678839563:(p3 | p4)
+1657679009701:fit_model %>%
+1657679009711:augment() %>%
+1657679009719:ggplot() +
+1657679009730:geom_line(aes(x=index, y=value, color = 'Original Series')) +
+1657679009740:geom_line(aes(x=index, y=.fitted, color = 'Predicted Series')) +
+1657679009749:geom_line(aes(x=index, y=.resid, color = 'Residuals'), linetype = 'dashed') +
+1657679009757:scale_color_manual(
+1657679009765:name = 'Series',
+1657679009774:values = c('Original Series' = berkeley_blue, 'Predicted Series' = california_gold, 'Residuals' = 'darkred'))
+1657679046593:fit_model %>%
+1657679046601:augment() %>%
+1657679046608:ggplot() +
+1657679046615:geom_line(aes(x=index, y=value, color = 'Original Series'))
+1657679052514:fit_model %>%
+1657679052521:augment()
+1657679069074:fit_model %>%
+1657679069083:augment() %>%
+1657679069093:ggplot() +
+1657679069102:geom_line(aes(x=time, y=value, color = 'Original Series')) +
+1657679069111:geom_line(aes(x=time, y=.fitted, color = 'Predicted Series')) +
+1657679069119:geom_line(aes(x=time, y=.resid, color = 'Residuals'), linetype = 'dashed') +
+1657679069131:scale_color_manual(
+1657679069142:name = 'Series',
+1657679069153:values = c('Original Series' = berkeley_blue, 'Predicted Series' = california_gold, 'Residuals' = 'darkred'))
+1657679147995:forecast(fit_model, h=10) %>%
+1657679148005:autoplot(series)
+1657679158837:forecast(fit_model, h=20) %>%
+1657679158846:autoplot(series)
+1657679195892:forecast(fit_model, h=12) %>%
+1657679195901:autoplot(series)
+1657679409686:backtest_model_fit <- series %>%
+1657679409696:filter(time < 90) %>%
+1657679409704:model(
+1657679409713:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679409721:)
+1657679459079:filtered_series <- series %>%
+1657679459088:filter(time < 90)
+1657679459123:backtest_model_fit <- filtered_series
+1657679459142:model(
+1657679459152:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679459161:)
+1657679468769:series %>%
+1657679468776:filter(time < 90)
+1657679477163:filtered_series <- series %>%
+1657679477171:filter(time < 90)
+1657679479653:filtered_series
+1657679485847:backtest_model_fit <- filtered_series
+1657679491700:backtest_model_fit <- filtered_series %>%
+1657679491713:model(
+1657679491727:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679491737:)
+1657679492860:forecast(backtest_model_fit, h=10) +
+1657679492870:autoplot(filtered_series)
+1657679503542:filtered_series <- series %>%
+1657679503552:filter(time < 90)
+1657679503587:backtest_model_fit <- filtered_series %>%
+1657679503595:model(
+1657679503603:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679503610:)
+1657679503710:forecast(backtest_model_fit, h=10) %>%
+1657679503719:autoplot(filtered_series)
+1657679580956:backtest_model_fit %>%
+1657679580964:augment()
+1657679697539:filtered_series <- series %>%
+1657679697549:filter(time < 90)
+1657679697583:backtest_model_fit <- filtered_series %>%
+1657679697591:model(
+1657679697601:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679697609:)
+1657679697718:backtest_model_fit %>%
+1657679697727:augment() %>%
+1657679697734:ggplot() +
+1657679697741:geom_line(aes(x=time, y=value, color = 'Original Series')) +
+1657679697748:geom_line(aes(x=time, y=.fitted, color = 'Estimated Series')) +
+1657679697755:geom_line(aes(x=time, y=.resid, color = 'Residuals'), linetype = 'dashed') +
+1657679697763:scale_fill_manual(
+1657679697771:name = 'Series',
+1657679697778:values = c('Original Series' = berkeley_blue, 'Predicted Series' = california_gold, 'Residuals' = 'darkred'))
+1657679720833:filtered_series <- series %>%
+1657679720845:filter(time < 90)
+1657679720883:backtest_model_fit <- filtered_series %>%
+1657679720892:model(
+1657679720899:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679720908:)
+1657679721018:backtest_model_fit %>%
+1657679721027:augment() %>%
+1657679721036:ggplot() +
+1657679721043:geom_line(aes(x=time, y=value, color = 'Original Series')) +
+1657679721050:geom_line(aes(x=time, y=.fitted, color = 'Estimated Series')) +
+1657679721060:geom_line(aes(x=time, y=.resid, color = 'Residuals'), linetype = 'dashed') +
+1657679721068:scale_color_manual(
+1657679721075:name = 'Series',
+1657679721082:values = c('Original Series' = berkeley_blue, 'Predicted Series' = california_gold, 'Residuals' = 'darkred'))
+1657679781955:filtered_series <- series %>%
+1657679781964:filter(time < 90)
+1657679781997:backtest_model_fit <- filtered_series %>%
+1657679782005:model(
+1657679782013:ARIMA(value ~ 1 + pdq(1,1,0) + PDQ(0,0,0))
+1657679782020:)
+1657679782143:backtest_model_fit %>%
+1657679782155:augment() %>%
+1657679782166:ggplot() +
+1657679782178:geom_line(aes(x=time, y=value, color = 'Original Series')) +
+1657679782190:geom_line(aes(x=time, y=.fitted, color = 'Estimated Series')) +
+1657679782201:geom_line(aes(x=time, y=.resid, color = 'Residuals'), linetype = 'dashed') +
+1657679782216:scale_color_manual(
+1657679782231:name = 'Series',
+1657679782244:values = c('Original Series' = berkeley_blue, 'Estimated Series' = california_gold, 'Residuals' = 'darkred'))
+1657679824962:forecast(backtest_model_fit, h=10) %>%
+1657679824971:autoplot(filtered_series)
+1657679841923:forecast(backtest_model_fit, h=10) %>%
+1657679841933:autoplot(series)

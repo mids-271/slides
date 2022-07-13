@@ -1,0 +1,8 @@
+"0","set.seed(898)"
+"0","y     <- c(rnorm(2), rep(NA, 98)) # start with y1 and y2 being white noise "
+"0","omega <- c(rnorm(3), rep(NA, 97)) # start with three shocks "
+"0",""
+"0","for(t in 3:100) { "
+"0","  omega[t+1] <- rnorm(1) # make a shock for the next time period "
+"0","  y[t] <- 0.5*y[t-1] + y[t-1] - 0.5*y[t-2] + omega[t] + 0.3 * omega[t-1]"
+"0","}"

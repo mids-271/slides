@@ -1,0 +1,8 @@
+"0","data_gbp_nzd %>% "
+"0","  model("
+"0","    ma_5    = ARIMA(xrate ~ 1 + pdq(0,0,5)   + PDQ(0,0,0)), "
+"0","    arma_11 = ARIMA(xrate ~ 1 + pdq(1,0,1) + PDQ(0,0,0))"
+"0","  ) %>% "
+"0","  forecast(h=6) %>% "
+"0","  select(xrate, .mean) %>% "
+"0","  autoplot(data_gbp_nzd)"
